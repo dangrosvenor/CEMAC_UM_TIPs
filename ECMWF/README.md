@@ -35,7 +35,7 @@ in the rose suite point to the correct code
 
 and source
 
-`fcm_make`--> `Sources` --> `um_sources` : `fcm:um.x_br/dev/helenburns/r93388_vn_11.1_archer2_fix_gribapi2`
+`fcm_make`--> `Sources` --> `um_sources` : `fcm:um.x_br/dev/helenburns/11.4_11.4_GRIB_API`
 
 in these branches I have edited
 `external_paths.cfg` `parallel.cfg` `rcf_grib_block_params_mod.F90` and `ukmo_grib_mod.F90`
