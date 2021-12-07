@@ -23,3 +23,10 @@ Sometimes you want to create a branch of a branch. **NB** If you want to merge b
 3. run `. mosrs-setup-gpg-agent` # this will ask for you metoffice password
 4. `mosrs-cache-password` will now chache you mosrs and allow fcm commands to run
 vn
+
+
+### Troubleshooting
+
+**weird config errors**
+
+check: `~/.metomi/fcm/keyword.cfg` and alter contents as necessary or mv to `keyword.cfg.bak`

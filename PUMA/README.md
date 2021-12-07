@@ -8,6 +8,9 @@ Check `quota` often these errors posing as display errors when launching rose GU
 
 # Archer2 new 23 cabinet system
 
+
+## Host Key verification failed / submit failed
+
 `[FAIL] Host key verification failed.`
 
 Occurs because Archer2 now has a different key the 4 cabinet system
@@ -27,6 +30,14 @@ telling you the other offending key to remove e.g.:
 
 `ssh-keygen -R 193.62.216.45`
 
-Now you should have no more mismatching keys
+Now you should have no more mismatching keys. (possibly you'll need to repeat this step a few times to cover all the ip addresses!)
 
 *NB only do this when you are expecting the keys to mismatch - otherwise a key mismatch could highlight something malicious*
+
+## Module fails
+
+Job fails with error logs not finding modules
+
+`module restore module` yields : `Lmod has detected the following error:  User module collection: "2020.12.14" does not exist.`
+
+`module restore` is no longer a command. `module load um` will load um modules
