@@ -1,5 +1,21 @@
 # PUMA tips
 
+## Rose suite shutdown fail
+
+Probably due to a local process:
+
+`ps -flu <puma-user-name> | grep <suite-id>`
+
+then kill the offending process with `kill -9 <pid>`
+
+## re-accessing the cylc gui
+
+* rose sgc
+
+## Submit fail with no obvious error
+
+Connection error with no permission/ pub- key or other recognisable error can be an intermittent connection drop and simply resolved by a resubmit
+
 ## GDK Display Errors
 
 Check `quota` often these errors posing as display errors when launching rose GUIs appear due to lack of disk space

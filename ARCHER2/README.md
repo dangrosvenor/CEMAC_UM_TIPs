@@ -24,7 +24,7 @@ ssh-add ~/.ssh/id_rsa_archerum
 weird FCM make permission error... not always ? Sometimes runs fine ?
 
 
-# ARCHER 2 Pilot scheme
+# ARCHER 2
 
 [CMS UM on archer 2 pages](http://cms.ncas.ac.uk/wiki/Archer2#UM)
 
@@ -56,7 +56,49 @@ and `meta/rose-meta.conf` swapping `range=60:172800` to `range=1:172800`
 * Python mismatches - if loading in cray-python must load after other cyclc tasks and unload in after in pre scripts
 * Nesting Suite archer suite had reference to short partition which does not exist short q is accessed by short reservation on standard partition
 * short q limited to 1 running 1 queuing
-*
+
+## Transitioning to 23-cab from 4 cab
+
+Main files that need altering:
+
+`site/ncas-cray-ex/suite-adds.rc`
+
+all `module restore` commands must be modified to something like:
+
+```bash
+export MODULEPATH=$MODULEPATH:/work/n02/n02/simon/modulefiles
+module load um
+```
+
+the CAP9.1 path must be altered
+
+```bash
+# replace
+# export PATH=/work/n02/n02/grenvill/CAP9.1/build/bin:$PATH
+# with
+export PATH=/work/y07/shared/umshared/CAP9.1/build/bin:$PATH
+```
+
+CAP9 path must also be altered in:
+
+`app/install_cold/opt/rose-app-ncas-cray-ex.conf`
+
+```bash
+# replace
+# source=/work/n02/n02/grenvill/CAP9.1/build/bin
+# with
+source=/work/y07/shared/umshared/CAP9.1/build/bin
+```
+
+*UM source code mods*
+
+Depending on which version of the UM more or less modifications will be required:
+
+find the um source closest to your suites from this list:
+
+[http://cms.ncas.ac.uk/wiki/Archer2](http://cms.ncas.ac.uk/wiki/Archer2)
+
+and find the corresponding branch on the
 
 ### Troubleshooting:
 
