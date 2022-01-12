@@ -26,12 +26,32 @@ in a suite dir run:
 
 ### Gotchas
 
-### Permission denied (publickey)
-
-Something is probably wrong with your setup if this happens regularly try running:
+### Trouble shutting down a suite
 
 ```bash
-eval `ssh-agent -s`
-ssh-add -D
-ssh-add ~/.ssh/id_rsa_archerum
+ps -flu <username> | grep <suite-id>
 ```
+
+then you can `kill -9 <PID>` the process that is still running preventing the suite from shutting down
+
+# Debugging tips
+
+if the job.err messages are completely unhelpful there's a number of things you can do.
+
+1. Try running: `addr2line --exe=</path/too/executable> <address>`
+2. Rerun in debug mode
+
+in *site/<HOST_HPC>/suite-adds.rc* add
+  ```bash
+  module load atp
+  export ATP_ENABLED=1
+  ```
+  to the `HOST_HPC init-script`
+
+  **AND**
+
+  switching on extra output by
+
+  *um > env > runtime controls > atmosphere only* set PRINT_STATUS to "Extra diagnostic messages"
+
+a similar thing can be done if your issue is in recon step
