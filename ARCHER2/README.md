@@ -98,7 +98,20 @@ find the um source closest to your suites from this list:
 
 [http://cms.ncas.ac.uk/wiki/Archer2](http://cms.ncas.ac.uk/wiki/Archer2)
 
-and find the corresponding branch on the
+and find the corresponding branch on the [trac um browser](https://code.metoffice.gov.uk/trac/um/browser)
+
+find the revision log for the "cce12 fixes"
+
+e.g. for vn 11.2 the following files need to be modified
+
+```
+atmosphere/AC_assimilation/getobs.F90 (4 diffs)
+atmosphere/UKCA/ukca_activ_mod.F90 (1 diff)
+atmosphere/UKCA/ukca_calc_drydiam.F90 (2 diffs)
+atmosphere/UKCA/ukca_volume_mode.F90 (6 diffs)
+atmosphere/boundary_layer/bdy_expl2.F90 (2 diffs)
+utility/qxreconf/rcf_h_int_nearest_mod.F90 (2 diffs)
+```
 
 ### Troubleshooting:
 
