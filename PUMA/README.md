@@ -1,5 +1,24 @@
 # PUMA tips
 
+
+### Permission denied (publickey)
+
+1. remove `~/.ssh/environment.puma`
+2. remove any erroneous or old keys that might be getting picked up by accident
+  * If you're unsure move them to a backup folder
+4. log out and back in
+3. run `ssh-add ~/.ssh/id_rsa_archerum`
+
+If this happens regularly try running:
+
+```bash
+eval `ssh-agent -s`
+ssh-add -D
+ssh-add ~/.ssh/id_rsa_archerum
+```
+
+however if you having to do this something is wrong with your set up
+
 ## Rose suite shutdown fail
 
 Probably due to a local process:
@@ -21,39 +40,3 @@ Connection error with no permission/ pub- key or other recognisable error can be
 Check `quota` often these errors posing as display errors when launching rose GUIs appear due to lack of disk space
 
 `du -sh`  in your home directory should reveal largest space drains. The default quota for Puma is 1GB
-
-# Archer2 new 23 cabinet system
-
-
-## Host Key verification failed / submit failed
-
-`[FAIL] Host key verification failed.`
-
-Occurs because Archer2 now has a different key the 4 cabinet system
-
-`ssh-keygen -R login.archer2.ac.uk`
-
-should resolve it
-
-some users might need to check there's no other toublesome keys
-
-`ssh -o BatchMode=yes -o StrictHostKeyChecking=no  login.archer2.ac.uk`
-might pop up a warning:
-
-`Warning: the ECDSA host key for 'login.archer2.ac.uk' differs from the key for the IP address '193.62.216.45'``
-
-telling you the other offending key to remove e.g.:
-
-`ssh-keygen -R 193.62.216.45`
-
-Now you should have no more mismatching keys. (possibly you'll need to repeat this step a few times to cover all the ip addresses!)
-
-*NB only do this when you are expecting the keys to mismatch - otherwise a key mismatch could highlight something malicious*
-
-## Module fails
-
-Job fails with error logs not finding modules
-
-`module restore module` yields : `Lmod has detected the following error:  User module collection: "2020.12.14" does not exist.`
-
-`module restore` is no longer a command. `module load um` will load um modules
