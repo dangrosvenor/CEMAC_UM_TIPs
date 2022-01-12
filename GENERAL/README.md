@@ -22,7 +22,12 @@ make required edits user name and charging code and run
 
 in a suite dir run:
 
-`rose suite-run new`
+`rose suite-run --new`
+`rose suite-run --restart`
+
+## viewing a running suites
+
+`rose sgc`
 
 ### Gotchas
 
