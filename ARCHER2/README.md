@@ -57,6 +57,44 @@ and `meta/rose-meta.conf` swapping `range=60:172800` to `range=1:172800`
 * Nesting Suite archer suite had reference to short partition which does not exist short q is accessed by short reservation on standard partition
 * short q limited to 1 running 1 queuing
 
+
+
+# Archer2 new 23 cabinet system
+
+
+## Host Key verification failed / submit failed
+
+`[FAIL] Host key verification failed.`
+
+Occurs because Archer2 now has a different key the 4 cabinet system
+
+`ssh-keygen -R login.archer2.ac.uk`
+
+should resolve it
+
+some users might need to check there's no other toublesome keys
+
+`ssh -o BatchMode=yes -o StrictHostKeyChecking=no  login.archer2.ac.uk`
+might pop up a warning:
+
+`Warning: the ECDSA host key for 'login.archer2.ac.uk' differs from the key for the IP address '193.62.216.45'``
+
+telling you the other offending key to remove e.g.:
+
+`ssh-keygen -R 193.62.216.45`
+
+Now you should have no more mismatching keys. (possibly you'll need to repeat this step a few times to cover all the ip addresses!)
+
+*NB only do this when you are expecting the keys to mismatch - otherwise a key mismatch could highlight something malicious*
+
+## Module fails
+
+Job fails with error logs not finding modules
+
+`module restore module` yields : `Lmod has detected the following error:  User module collection: "2020.12.14" does not exist.`
+
+`module restore` is no longer a command. `module load um` will load um modules
+
 ## Transitioning to 23-cab from 4 cab
 
 Main files that need altering:
