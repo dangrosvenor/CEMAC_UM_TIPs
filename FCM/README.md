@@ -8,7 +8,7 @@
 4. `svn add .` to add new files or folders not tracked
 4. `fcm commit` regularly to keep track of changes
 5. `fcm diff` shows you your edits
-
+6. `fcm branch-delete fcm:um.x-br/dev/<username>/<branchname>` deletes branches
 
 ### Others
 
@@ -30,3 +30,7 @@ vn
 **weird config errors**
 
 check: `~/.metomi/fcm/keyword.cfg` and alter contents as necessary or mv to `keyword.cfg.bak`
+
+## User guide
+
+* CMS cms.ncas.ac.uk/chrome/site/FCM/user_guide/code_management.html
