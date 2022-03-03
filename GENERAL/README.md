@@ -60,3 +60,13 @@ in *site/<HOST_HPC>/suite-adds.rc* add
   *um > env > runtime controls > atmosphere only* set PRINT_STATUS to "Extra diagnostic messages"
 
 a similar thing can be done if your issue is in recon step
+
+## Upgrading a suites
+
+```bash
+cd [your suite]
+rose macro --fix
+cd app/um
+rose app-upgrade vn12.0 (or whatever)
+cd …/fcm_make
+```
