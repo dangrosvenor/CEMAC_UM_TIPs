@@ -11,7 +11,7 @@
 
 ## Overview
 
-This a a collection of UM tips from the CEMAC team at Leeds. Split into various topics. These tips will be written up alongside existing UM projects so will expand over time.
+This a a collection of UM tips from the CEMAC team at Leeds. Split into various topics. These tips will be written up alongside existing UM projects so will expand over time. Your fist port of call for information should be [NCAS CMS](http://cms.ncas.ac.uk/wiki/UM)
 
 ## Contributing
 
