@@ -1,6 +1,6 @@
 # USING ECMWF DATA
 
-## Obtaining ECMWF data
+# Obtaining ECMWF data
 
 ### via cdsapi on ARCHER
 
@@ -22,14 +22,22 @@ key: <UID>:<API KEY>
 * run `make ancils only` with extra domain, larger than your domain 1
 * store these ancillaries
 * you may need to edit `meta/rose-meta.conf` to allow more domains if you're already using 5 and run `/bin/setup_metadata` to generate a new file **NB** backup your suite.rc and conf files.
+* Edit the fcm_make config source to one that has correct ecCodes path (see below)
 * run the model with `Driving model` set to ECMWF (point to ancils generated and the grib files)
 
-## Modifying a suite/um code to use ECMWF data
+## Modifying a um code to use ECMWF data
 
-The UM executable needs to know about eccodes in order to decode girb files
+Versions 11.2 onwards uses ecCodes [https://code.metoffice.gov.uk/trac/um/wiki/ReleaseNotes11.2](https://code.metoffice.gov.uk/trac/um/wiki/ReleaseNotes11.2) and should work out the box. HOWEVER
 
-You will need to use a version of the UM that allows this in both the fcm config and source
-in the rose suite point to the correct code
+The UM executable needs to know the correct location of a working build of Eccode in order to decode girb files. Either
+
+## Extra additions you may want to adjust:
+
+
+
+## Older Versions of the UM
+
+These will need to be modified
 
 `fcm_make`--> `Configuration file` --> `config_root_path` : `fcm:um.x_br/dev/helenburns/r93258_vn11.1_archer2_compile_eccodes`
 
@@ -92,7 +100,7 @@ examples/F90/CMakeFiles/eccodes_f_grib_set_data.dir/link.txt
 examples/F90/CMakeFiles/eccodes_f_grib_set_pv.dir/link.txt
 ```
 
-once those edits are made you can finish the rest of the installation 
+once those edits are made you can finish the rest of the installation
 
 ```
 make -j4
