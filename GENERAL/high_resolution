@@ -1,0 +1,74 @@
+# High Resolution Specific Notes
+
+The Regional Area Science settings e.g. [RA2](https://code.metoffice.gov.uk/trac/rmed/wiki/ra2) are scale aware.
+
+For sub-km simulations the RMED team have a useful [wiki page](https://code.metoffice.gov.uk/trac/rmed/wiki/subkm) of settings (time steps etc) and adjustments that may be needed.
+
+<hr>
+
+# Troubleshooting
+
+# Ancillary generation issues
+
+## VEGFRAC failing
+
+Generating subkm vegfrac ancillaries might fail in their interpolating. Its unclear why this is but you can
+use the fields from the parent nest where necessary. A neat way of doing this is to create exp1 config for
+your failing nest.
+
+
+ I’d just set the soil necessary ancillaries to `source=1` (allow recon to decide) for the failing nest's reconfiguration.
+ This will then mean it picks up the parent nest ancillary data, which is more than good
+ enough given the errors/approximations in the source data.
+
+Assuming you are using the same science configuration for all resolutions you can copy
+to that configuration to the expt1. i.e. copy `app/um/opt/rose-app-ra2t.conf` (or whatever config you’re using)
+to `app/um/opt/rose-app-expt1.conf` .
+
+Then add the ancil code from the `app/um/rose-app.conf` to the end of `expt1.conf` file,
+ so for the latest version of the suite this is
+
+```
+[namelist:items(4c515841)]
+ancilfilename='$UM_ANCIL_VEGFRAC_DIR/$UM_ANCIL_VEGFRAC_FILE'
+domain=1
+!!interval=1
+l_ignore_ancil_grid_check=.true.
+!!netcdf_varname='unset'
+!!period=1
+source=1
+stash_req=216
+update_anc=.false.
+!!user_prog_ancil_stash_req=
+!!user_prog_rconst=0.0
+
+[namelist:items(884a098e)]
+ancilfilename='$UM_ANCIL_SOIL_DIR/$UM_ANCIL_SOIL_FILE'
+domain=1
+!!interval=1
+l_ignore_ancil_grid_check=.false.
+!!netcdf_varname=10*'unset'
+!!period=1
+source=1
+stash_req=40,41,43,44,46,47,48,207,220,223
+update_anc=.false.
+!!user_prog_ancil_stash_req=
+!!user_prog_rconst=0.0
+```
+
+**NB `source=2` is edited to `source=1`**
+
+Then in the affected resolution configuration window make sure your change the `ra2t` or whatever
+in the drop down menu to `expt1`.
+
+# Domain Size
+
+At high Resolution you may find your domain size is larger than the max sizes check for in Defensive checks
+
+You will need to checkout a copy of the source code and edit
+
+`src/control/misc/atmos_max_sizes.F90`
+
+*NB check the source you're checking out matches you might need a branch of a branch!*
+
+Rebuild your executables and a larger domain will now be allowed
