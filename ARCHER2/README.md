@@ -128,22 +128,16 @@ CAP9 path must also be altered in:
 source=/work/y07/shared/umshared/CAP9.1/build/bin
 ```
 
-*UM source code mods*
+# UM source code mods #
 
 Depending on which version of the UM more or less modifications will be required:
-
-find the um source closest to your suites from this list:
-
-[http://cms.ncas.ac.uk/archer2](https://cms.ncas.ac.uk/archer2/)
-
-and find the corresponding branch on the [trac um browser](https://code.metoffice.gov.uk/trac/um/browser)
 
 ## CCE fixes ##
 
 [UKCA CC12 fixes](https://code.metoffice.gov.uk/trac/um/ticket/6464)
 
 
-An easy way to find the required mods is to browse [Jeff Coles UM code](https://code.metoffice.gov.uk/trac/um/browser/main/branches/dev/jeffcole) select the version you're interested in and search the revision log for the "cce12 fixes" in Jeff Coles 
+An easy way to find the required mods is to browse [Jeff Coles UM code](https://code.metoffice.gov.uk/trac/um/browser/main/branches/dev/jeffcole) select the version you're interested in and search the revision log for the "cce12 fixes" in Jeff Coles code. View the revision log and view the changes related the CCE12
 
 e.g. for vn 11.2 the following files need to be modified 
 
