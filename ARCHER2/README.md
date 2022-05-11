@@ -134,7 +134,7 @@ Depending on which version of the UM more or less modifications will be required
 
 find the um source closest to your suites from this list:
 
-[http://cms.ncas.ac.uk/wiki/Archer2](http://cms.ncas.ac.uk/wiki/Archer2)
+[http://cms.ncas.ac.uk/archer2](https://cms.ncas.ac.uk/archer2/)
 
 and find the corresponding branch on the [trac um browser](https://code.metoffice.gov.uk/trac/um/browser)
 
