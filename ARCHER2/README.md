@@ -26,7 +26,7 @@ weird FCM make permission error... not always ? Sometimes runs fine ?
 
 # ARCHER 2
 
-[CMS UM on archer 2 pages](http://cms.ncas.ac.uk/wiki/Archer2#UM)
+[CMS UM on archer 2 pages](https://cms.ncas.ac.uk/archer2/unified-model/)
 
 Note nothing will work out of the box.
 
@@ -137,6 +137,10 @@ find the um source closest to your suites from this list:
 [http://cms.ncas.ac.uk/wiki/Archer2](http://cms.ncas.ac.uk/wiki/Archer2)
 
 and find the corresponding branch on the [trac um browser](https://code.metoffice.gov.uk/trac/um/browser)
+
+## CCE fixes ##
+
+[UKCA CC12 fixes](https://code.metoffice.gov.uk/trac/um/ticket/6464)
 
 find the revision log for the "cce12 fixes"
 
