@@ -1,6 +1,6 @@
 # UM-Rose starter guide
 
-This is based on the document originally produced by Phil Rosenberg, so thanks to him. Some information may be out of date, though - we should try to check and update this.
+This is based on the document originally produced by Phil Rosenberg, so thanks to him. Some information may be out of date, though - let us know if you find that something doesn't work and we can update it.
 
 For some alternative instructions on some of these things and more trouble-shooting advice, also see this page :- [[UM_common_issues]]
 
