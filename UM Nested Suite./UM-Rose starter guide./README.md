@@ -156,25 +156,18 @@ You can edit these things under the fcm_make option or if you are interested you
 
 This enables you to allow others to copy your latest rose suite and keeps a history of your suite so if you ever break things you can go back.
 
-`
+`fcm status`
 
-fcm status
+`fcm diff`
 
-fcm diff
-
-fcm commit
-
-`
-
+`fcm commit`
 
 
 These show which files have changed, how the files are different and commits your changes to the repository creating a point you can always restore back to. It is good practice to do this whenever you make a change and only change one (group of) thing(s) at once between commits so you can easily find where something broke. It is bad practice to just commit at the end of the day, or end of the week, or when you remember.
 
 
 
-_Building the executables, reconfiguring and running the model_
-
-
+#### Building the executables, reconfiguring and running the model
 
 There are three steps to running the UM, first build the reconfiguration and simulation executable, then running the reconfiguration, which creates the input files you need for the run, then running the simulation. Note that once you have built the executables and run the reconfiguration, if you wish to run the simulation again then you don’t need to do these two steps - unless you have done a rose suite-clean or rose run --reset which clears out all these files. Note if you are nesting, then there is an additional step of creating ancillary files for the nesting domains and running the global model. Again if you have done these already you can turn them off for subsequent runs.
 
@@ -190,38 +183,27 @@ To switch on/of building nested ancillaries and switch on/off rerunning the glob
 
 To run the model after exiting the rose edit program type the following command
 
-<pre>
-
-rose suite-run
-
-</pre>
-
-
+`rose suite-run`
 
 This will run the job from the beginning and will pop up the Cylc flow diagram which shows the job progress. The following other commands are useful.
 
 Some other useful variations are
 
-<pre>
+`rose suite-run --restart`
 
-rose suite-run --restart
+`rose suite-run --new`
 
-rose suite-run --new
+`rose suite-scan`
 
-rose suite-scan
+`rose suite-gcontrol`
 
-rose suite-gcontrol
+`rose sgc`
 
-rose sgc
+`rose suite-clean`
 
-rose suite-clean
+`rose suite-shutdown`
 
-rose suite-shutdown
-
-qstat_snapshot –u <user_id>
-
-</pre>
-
+`qstat_snapshot –u <user_id>`
 
 
 The restart option restarts a run that had stopped from the point that it stopped. To do this first hit the stop/halt button in the Cylc gui otherwise you will see an error message about the suite still running (you can reopen the gui using rose sgc - see below). The new option deletes the cylc-run/<suite_id>/ directory before it runs the job. This includes things such as all output files, all ancilliaries, all log files for all cases when this suite has been run. Rose sgc is shorthand for rose suite-gcontrol and pops up the cylc flow diagram for a job that is currently running. Note that if the job has crashed or finished when you do this you may get an error saying cannot open port and the view will just have the suite number in the middle and perhaps an error message bottom left. To get the view up you need to do rose suite-run --restart. Rose suite-scan is similar to -llq as is qstat_snapshot; use qstat_snapshot –h for help. Note qstat_snapshot must be run on the supercomputer 
@@ -232,17 +214,12 @@ Rose suite-shutdown will kill a run that has for example crashed. However if you
 
 
 
-Output
+## Output
 
 
 On completion you should find all your data in 
 
-<pre>
-
-~/cylc_run/<run_id>/share/cycle/<date_time>/<domain_name>/<res_name>/<exp_name>/um/
-
-</pre>
-
+`~/cylc_run/<run_id>/share/cycle/<date_time>/<domain_name>/<res_name>/<exp_name>/um/`
 
 
 where all the items in angle brackets are things you set in the rose editor. Although if you do auto archiving this data should be removed and it will all be on Mass - see below.
@@ -255,7 +232,7 @@ There is also a lot of log type info under ~/cyc_run/<suite_id>/work/YYYYMMDDTHH
 
 
 
-Running “Operationally”
+## Running “Operationally”
 
 
 If you wish to do repeated runs whenever a new Met Office global forecast is produced, for example to do forecasting for a field campaign then these instructions indicate how.
@@ -270,52 +247,38 @@ Note that when you save and check in the Rose GUI, it appears that the check gra
 
 
 
-Dealing with errors
+## Dealing with errors
 
 
 You can find some information if you have a crash by right clicking on the bubble in Cylc and going to view job stderr. You can see these error messages in the .err files in the log directory. These files may indicate that a core dump was made - which includes all the memory at the time of the crash. You can find the core dumps in the ~/cylc_run/<suite_id>/work/… directory for the crun in question as described above in the output section. They will have filenames like core.atp.<some_number>.<node_number> To look at the core dump you need a debugger and to know which binary created the dump. The binary will usually be at something like ~/cylc-run/<suite_id> /share/fcm_make_lam/build-atmos/bin/um-atmos.exe, but you can check by doing 
 
-<pre>
-
-file <core_dump_file_name>
-
-</pre>
+`file <core_dump_file_name>`
 
 You can examine the core dump with Allinea Forge DDT debugger. You must do this from the xcm computer and you will need X window forwarding using the -Y option
 
-<pre>
+`ssh -Y xcm`
 
-ssh -Y xcm
+`module load forge`
 
-module load forge
-
-ddt
-
-</pre>
-
+`ddt`
 
 
 Ensure you select allinea DDT on the left then select Open Core. Select the executable and add core dump and hit OK. You will see the stack and can browse through the source to see where the crash happened.
 
 You can do interactive debugging too. In your rose directory find where ROSE_LAUNCHER is set. This will probably be in a file called suite-runtime-*.rc, you can search for the right file by doing grep -rnw . -a “ROSE_LAUNCHER”. Change the value from aprun to module load forge; ddt-mpirun. Now do the following
 
-<pre>
+`ssh -Y xcm`
 
-ssh -Y xcm
+`module load forge`
 
-module load forge
-
-ddt
-
-</pre>
-
+`ddt`
 
 
 Go to File->Options and select job submission. For the template file select  Click Run. Make sure the application is your UM applicationThen go to options->job submission 
 
 
 
-Further Info
+### Further Info
 
 
 You can find a quick reference guide for rose at http://metomi.github.io/rose/doc/rose-quick-ref.html
@@ -324,76 +287,46 @@ There is also documentation on the MO Twiki http://collab.metoffice.gov.uk/twiki
 
 
 
-Moose/MASS
+## Moose/MASS
 
 
 MASS is the tape archive. It is good to put things there because it saves you space. You can automatically archive your data from rose using the *_arch options for your nest under 
 
-<pre>
-
-suite conf->jinja2:suite.rc->Nested Suite region n setup->Resolution n setup->Config n setup.
-
-</pre>
-
-
+`suite conf->jinja2:suite.rc->Nested Suite region n setup->Resolution n setup->Config n setup.`
 
 If you look under archive->arch then you will see the location of the archive.
 
-
-
 IMPORTANT note that in order to do the auto archiving you must first create the set using moo mkset as detailed below.
-
-
 
 There is a command line interface for Mass called Moose, there is a user guide at http://collab.metoffice.gov.uk/twiki/bin/viewfile/Static/MASS/user_guide.html. On Monsoon you can only use moose from the xcm computer not xvmsrose. On Jasmin you can only use it from the mass-cli1 machine and you need to follow the setup at http://collab.metoffice.gov.uk/twiki/bin/view/Support/ExMASSUserSetUpGuide.
 
 The mass archive is set up in a particular fixed hierarchy directory structure specific files must be placed in specific directories. In fact there is no way to create or delete directories (except for sets - see below). When you send a file to mass if the directory it needs to go in is not there then it will be created and if you delete all the files in a directory then the directory will automatically be deleted. The file paths known as moose URIs always begin with
 
-<pre>
-
-moose:/<data_class>
-
-</pre>
+`moose:/<data_class>`
 
  where data_class represents the broad category of the data and must be one of: adhoc( no naming conventions - can be used for anything), crum (climate runs), devfc (development forecasts), ens (ensembles?), misc (?), opfc (operational forecasts?). I have access to devfc, so I will use that to describe how things work. Note that other data classes can have different hierarchies/structures so consult the docs.
 
 In devfc the URI will look something like (note that the / immediately after the : is optional)
 
-<pre>
+`moose:/devfc/<data_set>/field.file/<filename>`
 
-moose:/devfc/<data_set>/field.file/<filename>
+                       ` field.pp/<filename>`
 
-                        field.pp/<filename>
+                       ` lbc.file/<filename>`
 
-                        lbc.file/<filename>
-
-</pre>
 
 As you might expect, fields files must go in the field.file folder and pp files must go in the field.pp folder, boundary condition files must go in lbc.file. I think that netcdf files can be uploaded too, but not sure of the folder.
 
 Before you can upload anything you need to create a set for it to go in. In devfc the set must be the UMUI job id (all 5 characters) or the Rose suite id. The syntax is 
 
 
-
-<pre>
-
-moo mkset -v --project=project-<projectName> moose:/devfc/<jobId>
-
-</pre>
-
-
+`moo mkset -v --project=project-<projectName> moose:/devfc/<jobId>`
 
 Here -v means verbose, so isn’t strictly necessary.
 
 You can view the contents of a moose: directory using
 
-<pre>
-
-moo ls <moose_url>
-
-</pre>
-
-
+`moo ls <moose_url>`
 
 Where the url can be as short as blank which implies just moose: or as far down the structure as needed.
 
