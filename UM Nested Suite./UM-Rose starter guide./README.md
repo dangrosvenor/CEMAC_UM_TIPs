@@ -700,7 +700,7 @@ rm <ports_file>
 ### Error when creating a branch with FCM
 
 
-If you cannot create a branch when using fcm, but you can do other things then check your source branch is from a writable repository - the new branch is created in the same repository as the one you are copying from. The Puma mirrors (beginning fcm:um.xm_br are read only, if you try to create a branch from these fcm will try to create a branch on Puma, which will fail. It then asks for a password showing your Monsoon username, not your MOSRS one and then that will fail, then it asks for a username and password. This will also fail. To fix this use the equivalent MOSRS branch for a source which will be the same url, but will begin fcm:um.x_br.
+If you cannot create a branch when using fcm, but you can do other things then check your source branch is from a writeable repository - the new branch is created in the same repository as the one you are copying from. The Puma mirrors (beginning fcm:um.xm_br are read only, if you try to create a branch from these fcm will try to create a branch on Puma, which will fail. It then asks for a password showing your Monsoon username, not your MOSRS one and then that will fail, then it asks for a username and password. This will also fail. To fix this use the equivalent MOSRS branch for a source which will be the same url, but will begin fcm:um.x_br.
 
 
 
