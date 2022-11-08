@@ -404,7 +404,7 @@ In query files whitespace is ignored, # is used for comments and you can use the
 
 
 
-Editing or using alternate source code
+## Editing or using alternate source code
 
 
 If you want to use some different UM source code or make changes to the source code then you must tell rose to use that code instead and you must download it from the repo to edit it. If you go to https://code.metoffice.gov.uk/trac/um/browser, (the username and password are the MOSRS ones, if you can’t remember them your password is the same one you have to cache when you log into xvmsrose, and the username is the name it uses when it says hello after you cache your password) you can view the main UM source code (called the trunk) and everyone’s edits (called the branches).
@@ -480,17 +480,13 @@ The joy of doing regular commits based around specific pieces of work is that if
 You can find further descriptions of the fcm system at http://collab.metoffice.gov.uk/twiki/pub/Support/FCM/doc/user_guide/getting_started.html
 
 
-
-CASIM
-
+## CASIM
 
 CASIM is a cloud aerosol interaction scheme. It replaces the large scale precipitation part of the UM and does some other stuff as well, such as disable the cloud scheme. The code is hosted in the MONC MOSRS repository which you can browse at https://code.metoffice.gov.uk/trac/monc/browser. To use it with the UM you must use a UM branch which has the appropriate connecting code. The appropriate branches to use are documented at https://code.metoffice.gov.uk/trac/um/wiki/ticket/717/CASIM/package_branches. On that web page the Branch and Working revisions refer to the UM code and the CASIM revision refers to the CASIM branch hosted as part of MONC. Because it is hosted as part of MONC, the FCM url of the CASIM branch has the prefix fcm:casim.xm_br.
 
 
 
-To use casim, copy an existing working job and use that as a starting point. Suite u-ab346 is a good one.
-
-
+To use casim, copy an existing working job and use that as a starting point. Speak to Paul Field or Daniel Grosvenor about the latest CASIM suite to use.
 
 If you wish to use a different branch to the one in the copied suite then this can be changed in the Rose GUI at fcm_make->env. Remember the change of branch prefix noted above. You can and should checkout a copy of the CASIM branch as there are some switches that you will need to change in the source code. You can either create a new branch or checkout an existing branch and change the flags and point Rose to the source directory. I would however, recommend creating a new branch and committing your flags, then specify the revision number in your Rose suite. You then have a record of exactly how your flags were set for a run.
 
@@ -586,7 +582,7 @@ In addition the following switches can be set in the casim source code. This is 
 
 
 
-Admin Stuff
+## Admin Stuff
 
 
 Of course once you have everything running you will have to deal with disks and storage and things. A useful  command which needs to be run on xcm is
@@ -607,7 +603,7 @@ You may also want to know how much of your CPU allowance you have used up. You c
 
 
 
-Some example errors
+## Some example errors
 
 
 Warning in umPrintMgr: umPrintLoadOptions : Failed to get filename for IO control file from environment
@@ -644,7 +640,7 @@ This error occurred in the “frame” job for my nested domain. Fixed it by reb
 
 
 
-NaNs
+### NaNs
 
 
 Runtime Errors about nans often mean that your model has gone unstable. Have a look at the crashed crun’s job.out and you will see the peak vertical wind for each timestep. Check if this has suddenly increased at the last timestep that ran and check that it is at a sensible heigt (e.g. 10 m/s on model level 1 would be bad).
@@ -653,14 +649,14 @@ To solve it try reducing the timestep. Don’t forget to increase the requested 
 
 
 
-Fcm_make errors
+### Fcm_make errors
 
 
 If the first “bubble” of the fcm make fails then this means the extract has failed. Check your sources and make sure the fcm urls are correct. Also it might be worth checking them in the roses/<suite_id>/ap/fcm_make/rose-app.conf file directly as in the Rose GUI I had a path that I had accidentally pasted some stuff on the end with spaces in and this didn’t seem to show up in the GUI.
 
 
 
-Locked out of suite
+### Locked out of suite
 
 
 Could not do rose sgc (error about connecting), rose suite-run --restart (error about suite running) or rose suite-sutdown (error about connecting). Qstat showed no jobs running or submitted.
@@ -701,14 +697,14 @@ rm <ports_file>
 
 
 
-Error when creating a branch with FCM
+### Error when creating a branch with FCM
 
 
 If you cannot create a branch when using fcm, but you can do other things then check your source branch is from a writable repository - the new branch is created in the same repository as the one you are copying from. The Puma mirrors (beginning fcm:um.xm_br are read only, if you try to create a branch from these fcm will try to create a branch on Puma, which will fail. It then asks for a password showing your Monsoon username, not your MOSRS one and then that will fail, then it asks for a username and password. This will also fail. To fix this use the equivalent MOSRS branch for a source which will be the same url, but will begin fcm:um.x_br.
 
 
 
-Global Run or Global Reconfiguration Run Out of Wallclock Time
+### Global Run or Global Reconfiguration Run Out of Wallclock Time
 
 
 These cannot be edited in rose - you must manually edit the file which sets them, see Wallclock Time section. 
