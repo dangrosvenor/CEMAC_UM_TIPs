@@ -17,9 +17,9 @@ You will need 3 accounts to use Monsoon. The first is a Monsoon account (obvious
 
 You will need a Monsoon account to start with. This needs to be organised with your Met Office Collaborator so speak to them. Once you have this you can log in via the lander and from there can log onto the xcs machine. From here you can copy, edit and run rose suites/jobs. Note, this used to have to be done from evmsrose, but that is no longer the case.
 
- `ssh –Y username@lander.monsoon.metoffice.co.uk`
+&ensp `ssh –Y username@lander.monsoon.metoffice.co.uk`
 
- `ssh -Y xcs-c`
+&ensp  `ssh -Y xcs-c`
 
 
 
