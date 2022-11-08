@@ -8,32 +8,24 @@ For some alternative instructions on some of these things and more trouble-shoot
 
 ## Monsoon
 
-Monsoon is the met Office supercomputer accessible by their collaborators. This document describes my experience of going from no idea to (sometimes) getting the UM to run on Monsoon using the Rose interface.
+Monsoon is the Met Office supercomputer accessible by their collaborators. This document describes getting the UM to run on Monsoon using the Rose interface.
 
 You will need 3 accounts to use Monsoon. The first is a Monsoon account (obviously). The second is a Met Office Science Repository Service (MOSRS) account which allows you access to the UM source code. The third is a Collab Twiki account, which will give you access to the (slightly scattered) documentation.
 
 ### Logging in 
 
 
-You will need a Monsoon account to start with. This needs to be organised with your Met Office Collaborator so speak to them. Once you have this you can log in via the lander and from there can log onto the xcs machine. From here you can copy, edit and run rose suites/jobs. Note, this used to have to be done from evmsrose, but that is no longer the case.
+You will need a Monsoon account to start with. This needs to be organised with your Met Office Collaborator so speak to them. Once you have this you can log in via "Lander" and from there can log onto the xcs machine. From here you can copy, edit and run rose suites/jobs.
 
-&ensp; `ssh –Y username@lander.monsoon.metoffice.co.uk`
+&ensp; `ssh –Y username@lander.monsoon-metoffice.co.uk`
 
-&ensp;  `ssh -Y xcs-c`
+&ensp;  `ssh -Y xcsc`
 
 
 ### Set Up
 
 
 In order to be able to grab the source code from the repository you will need a Met Office Science Repository Service (MOSRS) account. This will have a username that is different to your Monsoon account and a regular password. You need to make sure that FCM (see below) knows this user name and the password is cached. To do this follow the instructions at https://code.metoffice.gov.uk/trac/home/wiki/FAQ under the configuring subversion access and then at https://code.metoffice.gov.uk/trac/home/wiki/AuthenticationCaching.
-
-When complete exit from exvmsrose and ssh back in again. You should be asked for your MOSRS password when you log in and you should then see a message something like 
-
-`Subversion password cached`
-
-`https://code.metoffice.gov.uk/rosie/u/hello: Hello philrosenberg`
-
-`Rosie password cached`
 
 
 ## Rose
@@ -56,19 +48,22 @@ Or you can use the following command for a GUI :-
 
 Which will open the rose GUI and you can search for a job to copy. Select this job and hit the copy button. 
 
+## Editing Rose jobs
+You can edit the suites by cd'ing into the roses/<suite-ID> directory and then typing:-
+ `rose edit`
+ 
+ This opens the editing GUI. You will probably make most of your changes, but it may also be necessary to edit the underlying namelist/text files for some things.
+
 
 
 ### Setting up which project account to use
 
 Each project has an allocated number of hours, and your priority on the Monsoon queue decreases as you use them up. If you don’t set up a project then I’m not sure what happens - it seems to mean you queue for ages in my experience.
 
-You must manually edit a file to set this up. Edit the file ~/roses/<suite_id>/suite-runtime-lams.rc and find a section called [[[directives]]]. In my file there were three lines which specify the queue, the walltime and the number of nodes to use. Add an additional line 
+This is set (in rose edit) under 👎
+ `suite conf -> Nesting Suite -> General run options as "CHARGING_CODE"
 
-`-P          = <projectName>`
-
-
-
-Obviously insert the name of your project account. You should then be able to make use of your allowance.
+Insert the name of your project account. You should then be able to make use of your allowance.
 
 
 
