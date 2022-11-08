@@ -22,66 +22,49 @@ You will need a Monsoon account to start with. This needs to be organised with y
 &ensp;  `ssh -Y xcs-c`
 
 
-
-
-
-Set Up
+### Set Up
 
 
 In order to be able to grab the source code from the repository you will need a Met Office Science Repository Service (MOSRS) account. This will have a username that is different to your Monsoon account and a regular password. You need to make sure that FCM (see below) knows this user name and the password is cached. To do this follow the instructions at https://code.metoffice.gov.uk/trac/home/wiki/FAQ under the configuring subversion access and then at https://code.metoffice.gov.uk/trac/home/wiki/AuthenticationCaching.
 
-
-
 When complete exit from exvmsrose and ssh back in again. You should be asked for your MOSRS password when you log in and you should then see a message something like 
 
-Subversion password cached
+`Subversion password cached`
 
-https://code.metoffice.gov.uk/rosie/u/hello: Hello philrosenberg
+`https://code.metoffice.gov.uk/rosie/u/hello: Hello philrosenberg`
 
-Rosie password cached
-
-
-
-If you intend to use gedit for text editing (and perhaps even if you don’t) then you should create the directory ~/.local/share which is where gedit puts things like recently used files etc.
-
-mkdir -p ~/.local/share/
+`Rosie password cached`
 
 
-
-Rose
-
+## Rose
 
 Rose is the interface for setting up a um run. You create a suite for each run you want to do and tell rose things like what source code you want to use to build the UM, the science settings, the variables you want to output etc. When complete you can submit the suite for running and will be show progress by a Cylc flow diagram. 
 
-
-
-Creating a new job
-
+### Creating a new job
 
 In your home directory you will find a folder called roses, which holds all your rose jobs. Each has a subdirectory, e.g. u-ab138. The u stands for universal and basically all jobs will have this u prefix.
 
 Probably the best thing to do is to copy an existing suite that was set up to do similar things to what you want to do. You can do this from the command line using :-
 
-rosie copy <suite-name-to-copy>
+`rosie copy <suite-name-to-copy>`
 
 The copy will come from the fcm repository (so make sure your source job has had its changes committed) and your new job will have a space in the repository (more later). There is also the rosie create command - I've not tried this. See rosie create --help for more info.
 
 Or you can use the following command for a GUI :-
 
-rosie go --prefix=u
+`rosie go --prefix=u`
 
 Which will open the rose GUI and you can search for a job to copy. Select this job and hit the copy button. 
 
 
 
-Setting up which project account to use
-
+### Setting up which project account to use
 
 Each project has an allocated number of hours, and your priority on the Monsoon queue decreases as you use them up. If you don’t set up a project then I’m not sure what happens - it seems to mean you queue for ages in my experience.
 
 You must manually edit a file to set this up. Edit the file ~/roses/<suite_id>/suite-runtime-lams.rc and find a section called [[[directives]]]. In my file there were three lines which specify the queue, the walltime and the number of nodes to use. Add an additional line 
 
--P          = <projectName>
+`-P          = <projectName>`
 
 
 
@@ -89,19 +72,17 @@ Obviously insert the name of your project account. You should then be able to ma
 
 
 
-Editing and running a job
-
+### Editing and running a job
 
 All the following commands should be run from the job’s directory, i.e. ~/roses/<job_id>/
 
 
-
-Editing a job
+#### Editing a job
 
 
 If you have just created a job then the Rose GUI will already be displayed. If not then to edit a job run
 
-rose edit&
+`rose edit&`
 
 
 
@@ -117,22 +98,11 @@ Note some options are greyed out. If you click on them then the editor will load
 
 
 
-Operational Stuff
-
-
-Most of the basic operational style configurations can be found under suite conf->jinja2:suite.rc. Here you can set things like nests, domains, timesteps, submission details etc. Note that after opening the nested suite stuff you must go to the command line and do 
-
-cd ~/roses/<job_id>/bin
-
-./setup_metadata <n_regions> <n_resolutions> <n_models>
-
-
-
-where n_* is the maximum number of those things you might need. This sets up all the needed metadata. Note I am just copying this from an email from Paul Field so I’m not sure really why this is needed.
+#### Re-using existing executables
 
 Note that if you wish to reuse an already built executable from another suite, the executables get built in the directory
 
-~/cylc-run/<job_id>/share/fcm_make_lam/build-atmos/bin/um-atmos.exe
+`~/cylc-run/<job_id>/share/fcm_make_lam/build-atmos/bin/um-atmos.exe`
 
 
 
@@ -140,81 +110,53 @@ When selecting the number of processors to use, you may wish to bear in mind tha
 
 
 
-_Wallclock Time_
-
-
+#### Wallclock Time
 
 If you wish to change the wallclock limit for your nested domains you do so under 
 
-suite conf->jinja2:suite.rc->General
+`suite conf->jinja2:suite.rc->General`
 
 run options. This sets the wallclock limit for all domains I think. However It does not change the global forecast wallclock limit. To change the global walclock limit you must edit the file 
 
-<pre>
-
-~/roses/<suite_id>/suite-runtime-dm.rc
-
-</pre> 
-
+`~/roses/<suite_id>/suite-runtime-dm.rc`
 
 
 and change the value of the appropriate -l walltime entry. Note there are two such entries, one for the reconfiguration and one for the forecast. You can find which is which by scrolling up from the entry and checking the comments.
 
 
 
-_STASH and Setting Output_
-
-
+#### STASH and Setting Output
 
 You can set all your output under UM->namelist Model Input and Output. To add new streams go to Model Output Streams, right click and add new. You can then edit it. The same applies to Domain Profiles, Time Profiles and Usage Profiles which are under Stash Requests and Profiles. The idea is that you set up files (under model output streams), with an associated usage profile (under usage profiles), time intervals/meaning (under time profiles) and spatial regions (under domain profiles). When you add a variable you then select the usage, time and domain profile for each variable.
 
-
-
 You should note that one file can have a maximum of 4096 levels worth of data and it can contain data from multiple C runs. The 4096 levels can be any combination of multiple levels from 3d variables, single level variables and from a range of consecutive time steps. Note that you can change how often you start a new file under the model output stream with the variable reinit_stap
-
-
 
 To set a variable to output, go to STASH Requests and Profiles->STASH Requests. Hit the New button (top right) to open the add new STASH request dialog and select the variables you want. When you close that button you need to select the domain, time and usage profile for each variable. 
 
-
-
 When specifying rho or theta levels the possible range is from 1-n_levels inclusive. N_levels will generally be 70 but you can check under suite conf->jinja2:suite.rc Nested Region n setup->Resolution n setup. The option you need to check is rg01_rs01_levset; L70 indicates 70 levels.
-
-
 
 If you want to export your stash then go to ~/roses/<job_id>/app/um and run 
 
-rose macro stash_copy.STASHExport
-
-
+`rose macro stash_copy.STASHExport`
 
 If you want a different name then enter it but in must be in quotes. The macro will ask you the name over and over again. If you keep putting the name in and hitting enter then eventually it will stop, however we are fairly sure that after the first time you can hit ctrl+x to kill it. To import a stash list to another job put the export file in the same loation in the new suite and run 
 
-<pre>
+`rose macro stash_copy.STASHImport`
 
-rose macro stash_copy.STASHImport
-
-</pre>
 
 IMPORTANT: The STASH variables and profiles are identified by hashes, but when you first create then they are given indices starting from one. These indices must be replaced by the hashes. Also the hashes are a function of the variable contents so if you modify any of these things you need to update the hash. The reason for doing this is that duplicated items can be quickly identified and removed if needed. To update all your hashes go to Stash Requests and Profiles->STASH Requests and click Macros (top left). Then select stashindices.TidyStashTransform. You can also see a macro here to prune duplicates ad another to check the validity of your STASH variables.
 
 
-
-_Source Code/build_
-
-
+#### Source Code/build
 
 You can edit these things under the fcm_make option or if you are interested you can find the controlling file under ~/roses/<job_id>/app/fcm_make/rose-app.conf
 
 
-
-_Committing your changes to the repository_
-
-
+#### Committing your changes to the repository
 
 This enables you to allow others to copy your latest rose suite and keeps a history of your suite so if you ever break things you can go back.
 
-<pre>
+`
 
 fcm status
 
@@ -222,7 +164,7 @@ fcm diff
 
 fcm commit
 
-</pre>
+`
 
 
 
