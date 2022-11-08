@@ -309,10 +309,8 @@ The mass archive is set up in a particular fixed hierarchy directory structure s
 In devfc the URI will look something like (note that the / immediately after the : is optional)
 
 `moose:/devfc/<data_set>/field.file/<filename>`
-
-                       ` field.pp/<filename>`
-
-                       ` lbc.file/<filename>`
+`field.pp/<filename>`
+`lbc.file/<filename>`
 
 
 As you might expect, fields files must go in the field.file folder and pp files must go in the field.pp folder, boundary condition files must go in lbc.file. I think that netcdf files can be uploaded too, but not sure of the folder.
