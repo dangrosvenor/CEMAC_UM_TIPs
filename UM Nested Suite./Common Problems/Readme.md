@@ -79,7 +79,7 @@ If you can't shut it down, log onto excyl cylc server and kill jobs (ssh exvmscy
 
 Or, 
 		ps -fu ${USER}
-			§ N.B. - make sure that the X-window is wide enough, or it will not show the run ID to identify the different suites.
+			N.B. - make sure that the X-window is wide enough, or it will not show the run ID to identify the different suites.
 	 
 		kill <PID>
 	 
@@ -93,19 +93,6 @@ That will kill the suite.
 
 ## Unable to connect to suites, won't shut down, unresponsive, stalled suite
 
-
-Update:16:20: Still not sure what's caused this, and a number of people are affected, but the advice (thanks Matt Shin) is as follows:
-
-1) login to exvmscylc and kill the lead process of the running suite (the one that's a parent of all the others)
-
-ps -fu ${USER}
-
-2) If no processes remain, also delete your ~/cylc-run/SUITE/.service/contact files as well. (Normally, these files are removed automatically by cylc, but they may be lingering due to an abnormal shut down.)
-
-Hopefully this will sort things out... AJ.
-
-
-
 I've had a few reports of this nature today.
 
 [plvida@exvmsrose:~/roses/u-am164]$ cylc stop u-al508
@@ -114,378 +101,327 @@ Cannot connect: https://exvmscylc.monsoon-metoffice.co.uk:43004/command/set_…:
 
 [plvida@exvmsrose:~/roses/u-am164]$
 
-This is a new one on me; I'm raising with other experts for help. More news when I have it.
 
+Update:16:20: Still not sure what's caused this, and a number of people are affected, but the advice (thanks Matt Shin) is as follows:
 
+1) login to exvmscylc and kill the lead process of the running suite (the one that's a parent of all the others)
 
-• This happened to me - the solution was to delete the file in contact/ (no. (2) above).
+	ps -fu ${USER}
 
+2) If no processes remain, also delete your ~/cylc-run/SUITE/.service/contact files as well. (Normally, these files are removed automatically by cylc, but they may be lingering due to an abnormal shut down.)
 
-
+Hopefully this will sort things out... AJ.
 
 
 ## Clean a Rose suite
 
-
-rose suite-clean --name=mi-ae162 : clear up suite - start from fresh - removes execs and ancils
+	rose suite-clean --name=mi-ae162 : clear up suite - start from fresh - removes execs and ancils
 
 
 
 ## Output
 
+Namelists and pe_output goes to :-
 
-• Namelists and pe_output goes to :-
+	/projects/asci/dgrosv/cylc-run/u-ab157/work/20081112T0000Z
 
-○ /projects/asci/dgrosv/cylc-run/u-ab157/work/20081112T0000Z
+	Shortcut script . ~/cdpe 
 
-○ Shortcut script . ~/cdpe 
+Pp files go to (for e.g.)
 
-• Pp files go to (for e.g.)
+	/projects/asci/dgrosv/cylc-run/u-ab157/share/cycle/20081112T0000Z/VOCALS/1p0_L70/ukv/um
 
-○ /projects/asci/dgrosv/cylc-run/u-ab157/share/cycle/20081112T0000Z/VOCALS/1p0_L70/ukv/um
+	Shortcut script . ~/cdpp - need to modify for non-VOCALS runs.
 
-○ Shortcut script . ~/cdpp - need to modify for non-VOCALS runs.
+Rose .out and .err files for the various stages :-
 
-• Rose .out and .err files for the various stages :-
+	~/cylc-run/u-ab157/log/job/20081112T0000Z
 
-○ ~/cylc-run/u-ab157/log/job/20081112T0000Z
+	(these are the ones that can be accessed by right clicking on a job in the rose sgc tree).
 
-○ (these are the ones that can be accessed by right clicking on a job in the rose sgc tree).
+Ancil files (e.g.) :-
 
-• Ancil files (e.g.) :-
+	/projects/asci/dgrosv/cylc-run/u-ab218/share/data/ancils/Iceland/4p0_L70/
 
-○ /projects/asci/dgrosv/cylc-run/u-ab218/share/data/ancils/Iceland/4p0_L70/
-
-○ e.g. xconv qrparm.orog  (from postproc)
-
-
-
+	e.g. xconv qrparm.orog  (from postproc)
 
 
 ## Stash
 
+Um option on lefthand side of "rose edit "suite
 
+	Um_ / namelist / Model Input and Output / Stash Requests 
 
-• Um option on lefthand side of "rose edit "suite
+	Also have Time Profiles and Usage Profiles here
 
-○ Um_ / namelist / Model Input and Output / Stash Requests 
+Can search for variables too (Filter box).
 
-○ Also have Time Profiles and Usage Profiles here
+After adding domains (time, domain, usage) need to run these macros to 
 
-• Can search for variables too (Filter box).
+Macros
 
-• After adding domains (time, domain, usage) need to run these macros to 
+	Top two with red dots - tidystashtransform and tidy*prune
 
-• Macros
+Roses//app/um
 
-○ Top two with red dots - tidystashtransform and tidy*prune
+	rose-app.conf
 
-• Roses//app/um
+		Gives info on the stash at the end.
 
-○ rose-app.conf
+		Although this does not give the variable name, and so perhaps not that useful.
 
-§ Gives info on the stash at the end.
+		File 
 
-§ Although this does not give the variable name, and so perhaps not that useful.
+			app/um/file/STASHmaster/STASHmaster_A
 
-§ File 
+			Contains a list of all the diags and their numbers I think
 
-□ app/um/file/STASHmaster/STASHmaster_A
+			Can grep for ones required - might not all have been output, though.
 
-® Contains a list of all the diags and their numbers I think
+			E.g. to search for cloud amounts/fraction :
 
-® Can grep for ones required - might not all have been output, though.
+				grep -i amount ~/roses/u-ab793/app/um/file/STASHmaster/STASHmaster_A
 
-® E.g. to search for cloud amounts/fraction :
+			Also, the info here gives you the stash number - the 2nd and 3rd entries h numbers of the first row give the section number and the item number. So in this case :-
 
-
-
-◊ grep -i amount ~/roses/u-ab793/app/um/file/STASHmaster/STASHmaster_A
-
-
-
-
-
-® Also, the info here gives you the stash number - the 2nd and 3rd entries h numbers of the first row give the section number and the item number. So in this case :-
-
-® The item would be section 0, item 2, or code 0-002
+			The item would be section 0, item 2, or code 0-002
 
 
 
-○ Exporting the stash for importing into another job
+### Exporting the stash for importing into another job
 
-○ Rose macro stash_copy.STASHExport
+Rose macro stash_copy.STASHExport
 
-§ Have to enter the filename in double quotes.
-
-
-
-
-
+	Have to enter the filename in double quotes.
 
 
 ## Adding new stash items using the namelist
 
+Can add them manually using the namelist :-
 
-• Can add them manually using the namelist :-
+	app/um/rose-app.conf
 
-○ app/um/rose-app.conf
+	When adding new items need to give them a unique stash code number in the line :-
 
-○ When adding new items need to give them a unique stash code number in the line :-
+		[namelist:streq(1)]
 
-§ [namelist:streq(1)]
+	I.e., the "1" here. 
 
-○ I.e., the "1" here. 
+	They don't have to be proper stash indices (e.g., "d17228fb"), can just do 1, 2, 3, etc.
 
-○ They don't have to be proper stash indices (e.g., "d17228fb"), can just do 1, 2, 3, etc.
-
-○ Then run rose edit and run the stash transform macro and it will convert them into proper stash indices.
-
-
-
+	Then run rose edit and run the stash transform macro and it will convert them into proper stash indices.
 
 
 ## Adding new usage etc. profiles
 
+Did this via the text file (e.g. see  u-ai864/app/um/rose-app.conf)
 
-• Did this via the text file (e.g. see  u-ai864/app/um/rose-app.conf)
+	Need to add text in two places :-
 
-○ Need to add text in two places :-
+	[namelist:nlstcall_pp(pp1)]
 
+	file_id='pp1'
 
+	!!filename='unset'
 
-[namelist:nlstcall_pp(pp1)]
+	filename_base='$DATAM/${RUNID}a_pb%N'
 
-file_id='pp1'
+	l_reinit=.true.
 
-!!filename='unset'
+	packing=1
 
-filename_base='$DATAM/${RUNID}a_pb%N'
+	reinit_end=-1
 
-l_reinit=.true.
+	reinit_start=0
 
-packing=1
+	reinit_step=6
 
-reinit_end=-1
+	reinit_unit=1
 
-reinit_start=0
-
-reinit_step=6
-
-reinit_unit=1
-
-reserved_headers=0
-
-
+	reserved_headers=0
 
 And
 
+	[namelist:use(d50be24f)]
+
+	file_id='pp1'
+
+	locn=3
+
+	!!macrotag=0
+
+	use_name='ice_vars_3d'
 
 
-[namelist:use(d50be24f)]
+The key points are that have changed pp0 to pp1, changed the filename_base to use *a_pb* instead of *a_pa* and have given it a different use_name. The other stuff was the same.
 
-file_id='pp1'
+Might need to re-run the macros for the stash items after adding these.
 
-locn=3
+Can also do this by cloning the profile in rose edit.
 
-!!macrotag=0
-
-use_name='ice_vars_3d'
-
-
-
-○ The key points are that have changed pp0 to pp1, changed the filename_base to use *a_pb* instead of *a_pa* and have given it a different use_name. The other stuff was the same.
-
-○ Might need to re-run the macros for the stash items after adding these.
-
-○ Can also do this by cloning the profile in rose edit.
-
-§ Probably cloning is the best approach - had some trouble with the above approach - may due to the way I named the profiles?
-
-
-
-
-
+	Probably cloning is the best approach - had some trouble with the above approach - may due to the way I named the profiles?
 
 
 ## Copying stash from one job to another
 
+Can do it just be editing the file 
 
+	app/um/rose-app.conf
 
-• Can do it just be editing the file 
+		Search for "streq" and can just copy and paste the required stash values.
 
-○ app/um/rose-app.conf
+		Need to do this for the time, domain and file profiles.
 
-§ Search for "streq" and can just copy and paste the required stash values.
+		Then can just re-open rose edit - might need to run that macro too.
 
-§ Need to do this for the time, domain and file profiles.
 
-§ Then can just re-open rose edit - might need to run that macro too.
 
 
 
+Other method - Sounds like the method below is not working properly yet…
 
+Instructions from Paul :-
 
-• Other method - Sounds like the method below is not working properly yet…
+	Hello
 
-○ Instructions from Paul :-
+	I seem to have had some luck with the stash export/import. I’m not 100% sure about what its doing but this transplanted stashfrom one suite to another....
 
-Hello
 
-I seem to have had some luck with the stash export/import. I’m not 100% sure about what its doing but this transplanted stashfrom one suite to another....
 
- 
+	in app directory of donor suite (e.g. app/um)
 
-in app directory of donor suite (e.g. app/um)
+	rose macro stash_copy.STASHExport
 
-rose macro stash_copy.STASHExport
 
- 
 
-keep pressing return until finished (about 12 times!). Most files the same . I’ve seen that one is different, but i don’t know why.
+	keep pressing return until finished (about 12 times!). Most files the same . I’ve seen that one is different, but i don’t know why.
 
- 
 
-Cd into app directory of target suite
 
-rose macro stash_copy.STASHImport
+	Cd into app directory of target suite
 
-Value for stash_donor_job (default None): "/home/h01/frfp/roses//app/um/STASHexport.ini"
+	rose macro stash_copy.STASHImport
 
- 
+	Value for stash_donor_job (default None): "/home/h01/frfp/roses//app/um/STASHexport.ini"
 
-Keep repeating file path entry until  the macro stops (again about 12 times in my case)
+	Keep repeating file path entry until  the macro stops (again about 12 times in my case)
 
-○ But Phil says :-
+But Phil says :-
 
-I’ve just been trying this and I can’t get it to work. I get the following output after I put the pathe in for the ini file
+	I’ve just been trying this and I can’t get it to work. I get the following output after I put the pathe in for the ini file
 
- 
+	[prosen@exvmsrose:~/roses/u-ac194/app/um]$ rose macro stash_copy.STASHImport
 
-[prosen@exvmsrose:~/roses/u-ac194/app/um]$ rose macro stash_copy.STASHImport
+	Value for stash_donor_job (default None): /home/prosen/roses/u-ac174/app/um/STASHexport.ini
 
-Value for stash_donor_job (default None): /home/prosen/roses/u-ac174/app/um/STASHexport.ini
+	Traceback (most recent call last):
 
-Traceback (most recent call last):
+	  File "/usr/lib64/python2.6/runpy.py", line 122, in _run_module_as_main
 
-  File "/usr/lib64/python2.6/runpy.py", line 122, in _run_module_as_main
+	    "__main__", fname, loader, pkg_name)
 
-    "__main__", fname, loader, pkg_name)
+	  File "/usr/lib64/python2.6/runpy.py", line 34, in _run_code
 
-  File "/usr/lib64/python2.6/runpy.py", line 34, in _run_code
+	    exec code in run_globals
 
-    exec code in run_globals
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1286, in
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1286, in
+	    main()
 
-    main()
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1281, in main
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1281, in main
+	    opts.validate_all, verbosity
 
-    opts.validate_all, verbosity
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 934, in run_macros
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 934, in run_macros
+	    reporter=reporter)
 
-    reporter=reporter)
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1074, in _run_transform_macros
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1074, in _run_transform_macros
+	    macro_name=transformer_macro
 
-    macro_name=transformer_macro
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1096, in apply_macro_to_config_map
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1096, in apply_macro_to_config_map
+	    return_value = macro_function(macro_config, meta_config)
 
-    return_value = macro_function(macro_config, meta_config)
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1071, in
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1071, in
+	    opt_non_interactive))
 
-    opt_non_interactive))
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 732, in transform_config
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 732, in transform_config
+	    res = get_user_values(optionals)
 
-    res = get_user_values(optionals)
+	  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1143, in get_user_values
 
-  File "/home/fcm/rose-2016.02.0/lib/python/rose/macro.py", line 1143, in get_user_values
+	    options[k] = ast.literal_eval(user_input)
 
-    options[k] = ast.literal_eval(user_input)
+	  File "/usr/lib64/python2.6/ast.py", line 49, in literal_eval
 
-  File "/usr/lib64/python2.6/ast.py", line 49, in literal_eval
+	    node_or_string = parse(node_or_string, mode='eval')
 
-    node_or_string = parse(node_or_string, mode='eval')
+	  File "/usr/lib64/python2.6/ast.py", line 37, in parse
 
-  File "/usr/lib64/python2.6/ast.py", line 37, in parse
+	    return compile(expr, filename, mode, PyCF_ONLY_AST)
 
-    return compile(expr, filename, mode, PyCF_ONLY_AST)
+	  File "", line 1
 
-  File "", line 1
+	    /home/prosen/roses/u-ac174/app/um/STASHexport.ini
 
-    /home/prosen/roses/u-ac174/app/um/STASHexport.ini
+	    ^
+	SyntaxError: invalid syntax
 
-    ^
+	I’ve tried moving the file and using relative paths, but always something similar.
 
-SyntaxError: invalid syntax
+	I’m about to post on the Leeds UM list to see if anyone else has had any success
 
- 
+	Phil
 
- 
 
-I’ve tried moving the file and using relative paths, but always something similar.
+## Changing wallclock time of the model
 
- 
+Looks like both the nest and the global model have the same value :
 
-I’m about to post on the Leeds UM list to see if anyone else has had any success
+	rose-suite.conf:WALL_CLOCK_LIMIT=XXXX (in seconds)
 
- 
+These are actually used here :
 
-Phil
+	site/monsoon-cray-xc40/suite-adds.rc
 
+E.g., for the nested suite it is set like this :
 
+	[[[job]]]
+		execution time limit =  PT{{WALL_CLOCK_LIMIT}}S
 
+For the reconfiguration look here in the above file :
 
+	[[UM_LAM_RECON]]
+	...
+	[[[job]]]
+		execution time limit =  PT1H
 
+So, it is set to 1 hour in the above example.
 
+Also, can do trigger --> edit in rose sgc and change the submission script - not sure what it will do with the subsequent runs, though (have changed in script above, but this did not affect the failed run - will prob have to stop the suite and restart).
 
-## Changing wallclock time of global model
+	Actually, this doesn't seem to work…. It didn't change the wall clock time.
 
+	Although it did say 15 mins from qstat.. Maybe it was working??
 
-○ Look in suite-runtime-dm.rc in your roses directory. Search for walltime. This will control the driving model. Paul's is set at 15 minutes.
-
-○ Also, can do trigger --> edit in rose sgc and change the submission script - not sure what it will do with the subsequent runs, though (have changed in script above, but this did not affect the failed run - will prob have to stop the suite and restart).
-
-§ Actually, this doesn't seem to work…. It didn't change the wall clock time.
-
-§ Although it did say 15 mins from qstat.. Maybe it was working??
-
-
-
-○ N.B. - the above does not work for v10.8.
-
-§ Looks like it is set in :-
-
-□ rose-suite.conf:DM_WALL_CLOCK=500
-
-§ But can also change in rose edit in General run options.
-
-
-
-## Changing wallclock for forecast job
-
-§ rose-suite.conf
-
-§ Change WALL_CLOCK_LIMIT  
-
+But can also change in rose edit in General run options.
 
 
 ## Changing for reconfiguration job
 
-○ Search for walltime in the following files. Is located in several sections - change the one with "UM reconfiguration" heading above  :-
+Search for walltime in the following files. Is located in several sections - change the one with "UM reconfiguration" heading above  :-
 
-§ For global model :-
+For global model :-
 
-□ suite-runtime-dm.rc
+	suite-runtime-dm.rc
 
-§ For LAM :-
+For LAM :-
 
-□ suite-runtime-lams.rc
+	suite-runtime-lams.rc
 
 
 
