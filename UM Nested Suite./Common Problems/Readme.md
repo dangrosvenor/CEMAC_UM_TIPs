@@ -69,47 +69,26 @@ Faster than invoking the "rosie go" GUI, although this is another option :-
 	To copy a job - right click and copy.
 
 
-
-
-
-
-
 ## Shutting down a Rose suite
-
 
 rose suite-shutdown --name="suitename" 
 
-• if you can't shut it down, log onto excyl cylc server and kill jobs (ssh exvmscylc)
+If you can't shut it down, log onto excyl cylc server and kill jobs (ssh exvmscylc)
 
-○ (Will give the process names when you try and restart using rose suite-run --restart. Kill -9 these
+	(Will give the process names when you try and restart using rose suite-run --restart. Kill -9 these
 
-• Or, 
-
-○ ps -fu ${USER}
-
-§ N.B. - make sure that the X-window is wide enough, or it will not show the run ID to identify the different suites.
-
- 
-
-
-kill
-
-
-
- 
-
-This is the PID for the PPID=1 python process for your suite.
-
-Then remove the port file:
-
- 
-
-rm $HOME/.cylc/ports/
-
- 
-
-That will kill the suite.
-
+Or, 
+		ps -fu ${USER}
+			§ N.B. - make sure that the X-window is wide enough, or it will not show the run ID to identify the different suites.
+	 
+		kill <PID>
+	 
+		This is the PID for the PPID=1 python process for your suite.
+		Then remove the port file:
+	 
+		rm $HOME/.cylc/ports/<suiteid>
+	 
+That will kill the suite.![image](https://user-images.githubusercontent.com/33125995/228180375-7cf1da25-fcf9-4ac3-88a0-d03e66f6b476.png)
 
 
 ## Unable to connect to suites, won't shut down, unresponsive, stalled suite
