@@ -54,19 +54,19 @@ https://code.metoffice.gov.uk/trac/home/wiki/AuthenticationCaching
 
 ## Copying a Rose suite
 
-• Can copy using command line :-
+Can copy using command line :-
 
-○ rosie copy u-aj097
+	rosie copy u-aj097
 
-○ Faster than invoking the "rosie go" GUI, although this is another option :-
+Faster than invoking the "rosie go" GUI, although this is another option :-
 
-• rosie go --prefix=u     - the prefix=u part is very important.
+	rosie go --prefix=u     - the prefix=u part is very important.
 
-○ Can search for users in the search space at the top right.
+	Can search for users in the search space at the top right.
 
-§ e.g. adrianhill for Adrian.
+		e.g. adrianhill for Adrian.
 
-○ To copy a job - right click and copy.
+	To copy a job - right click and copy.
 
 
 
