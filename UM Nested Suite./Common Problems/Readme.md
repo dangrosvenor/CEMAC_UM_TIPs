@@ -88,7 +88,7 @@ Or,
 	 
 		rm $HOME/.cylc/ports/<suiteid>
 	 
-That will kill the suite.![image](https://user-images.githubusercontent.com/33125995/228180375-7cf1da25-fcf9-4ac3-88a0-d03e66f6b476.png)
+That will kill the suite.
 
 
 ## Unable to connect to suites, won't shut down, unresponsive, stalled suite
