@@ -411,96 +411,42 @@ Also, can do trigger --> edit in rose sgc and change the submission script - not
 But can also change in rose edit in General run options.
 
 
-## Changing for reconfiguration job
-
-Search for walltime in the following files. Is located in several sections - change the one with "UM reconfiguration" heading above  :-
-
-For global model :-
-
-	suite-runtime-dm.rc
-
-For LAM :-
-
-	suite-runtime-lams.rc
-
-
-
-
-
-
-
 ## Changing the project for a rose suite
 
-
-• Add :-
-
-○ "-P = "
-
-• to the submisson options in suite-runtime-dm.rc and suite-runtime-lams.rc (if want to change for both global and LAM).
-
-○ I.e. just below where walltime is set (change everywhere that this is set in those two files).
-
-
-
-• Also, for datadir :-
-
-$DATADIR is typically set in .profile, but can be set differently for individual jobs/suites as required. To do so, add the following at the top of the rose-suite.conf file :-
-
-
-
-root-dir{share}=*=/projects//$USER 
-
-root-dir{work}=*=/projects//$USER
-
-
-
-This will tell the suite to direct all output to /projects//$USER.
-
-
-
-Pasted from <https://collab.metoffice.gov.uk/twiki/bin/view/Support/NEXCS> 
-
+rose-suite.conf:CHARGING_CODE="XXXX"
 
 
 ## Misc
 
-• Hasnan function - can test any array, vector, etc. for occurrence of NaN - slows the code down though.
-
-
-
+Hasnan function - can test any array, vector, etc. for occurrence of NaN - slows the code down though.
 
 
 ## Compiling with Rose
 
+Presumably won't need to stop and re-start the suite after editing the code? Can hopefully just re-trigger the compile process from rose sgc.
 
-• Presumably won't need to stop and re-start the suite after editing the code? Can hopefully just re-trigger the compile process from rose sgc.
+This seems to work.
 
-• This seems to work.
+Although might have to trigger fcm_make_lam as well as fcm_make2_lam
 
-• Although might have to trigger fcm_make_lam as well as fcm_make2_lam
+	Had to do this when had a wrong module specified.
 
-○ Had to do this when had a wrong module specified.
+	Probably best to do this every time - doesn’t take long for the first stage.
 
-○ Probably best to do this every time - doesn’t take long for the first stage.
+N.B. - can point to local copy in rose-app.conf by specifying the path to the directory instead of the branch name - e.g. /projects/asci/dgrosv/um_code/vn10.3_coupling2/
 
-• N.B. - can point to local copy in rose-app.conf by specifying the path to the directory instead of the branch name - e.g. /projects/asci/dgrosv/um_code/vn10.3_coupling2/
+	Think need the / at the end, but not 100%. Works with it on anyway.
 
-○ Think need the / at the end, but not 100%. Works with it on anyway.
-
-• Had one compiler error where it could not make a module, but didn't say much more than that - turns out there was a variable specified in there that had been specified in another module. Once it was taken out it was ok.
-
-
-
+Had one compiler error where it could not make a module, but didn't say much more than that - turns out there was a variable specified in there that had been specified in another module. Once it was taken out it was ok.
 
 
 ## Holding all the jobs in Rose
 
-• rose suite-run -- --hold
+	rose suite-run -- --hold
 
-○ Sets all the jobs to HOLD.
+Sets all the jobs to HOLD.
 
-○ Then can run individual ones.
-
+Then can run individual ones.
 
 
 ## Rotated pole
@@ -508,7 +454,6 @@ Pasted from <https://collab.metoffice.gov.uk/twiki/bin/view/Support/NEXCS>
 The nested suites can use a rotated pole whereby the model grid is treated as though the centre of the domain is on the equator. This means that the regularly-spaced grid in latitude and longitude that the nested suites use is closer to a regularly-spaced grid in real distance than it would be if the nest was nearer the poles (due to the lines of longitude getting closer together in terms of distance at higher latitudes).
 
 Here is an example Python function to unrotate the pole and get the actual lat/lon coordinates for a nested domain with rotated pole. See the next entry for where to find the pole latitude and longitude :-
-
 
 
 def read_lat_lon_UM(cube,pole_lat,pole_lon):
