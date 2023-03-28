@@ -1,11 +1,7 @@
-UM common issues
+# UM common issues
 
 
-[TOC:Contents:6]
-
-
-
-Emailing for help
+## Emailing for help
 
 
 
@@ -33,18 +29,20 @@ https://cms-helpdesk.ncas.ac.uk/t/welcome-to-the-ncas-cms-modelling-support-foru
 
 
 
-UM known failure points Met Office website
+## UM known failure points Met Office website
+
 Has some useful information on known failure points for general UM issues :-
 https://code.metoffice.gov.uk/trac/um/wiki/KnownUMFailurePoints
-Getting start dumps
+
+## Getting start dumps
 If you have access to MASS you can try, e.g. (adapt for the file you want) :-
 moo get moose:/opfc/atm/global/rerun/201403.file/2014031500_glm_t+0 .
 You can search the directories using :-
 moo ls
 There is some more information here too :-
 http://cms.ncas.ac.uk/wiki/UM/MesoscaleModelling
-The Code Repository
 
+## The Code Repository
 
 Code.metoffice.gov.uk
 Should have a password  for this (email  via Paul, etc.).
@@ -56,10 +54,7 @@ Then this :-
 https://code.metoffice.gov.uk/trac/home/wiki/AuthenticationCaching
 
 
-Copying a Rose suite
-
-
-
+## Copying a Rose suite
 
 • Can copy using command line :-
 
@@ -81,7 +76,7 @@ Copying a Rose suite
 
 
 
-Shutting down a Rose suite
+## Shutting down a Rose suite
 
 
 rose suite-shutdown --name="suitename" 
@@ -119,7 +114,7 @@ That will kill the suite.
 
 
 
-Unable to connect to suites, won't shut down, unresponsive, stalled suite
+## Unable to connect to suites, won't shut down, unresponsive, stalled suite
 
 
 Update:16:20: Still not sure what's caused this, and a number of people are affected, but the advice (thanks Matt Shin) is as follows:
@@ -152,14 +147,14 @@ This is a new one on me; I'm raising with other experts for help. More news when
 
 
 
-Clean a Rose suite
+## Clean a Rose suite
 
 
 rose suite-clean --name=mi-ae162 : clear up suite - start from fresh - removes execs and ancils
 
 
 
-Output
+## Output
 
 
 • Namelists and pe_output goes to :-
@@ -190,7 +185,7 @@ Output
 
 
 
-Stash
+## Stash
 
 
 
@@ -252,7 +247,7 @@ Stash
 
 
 
-Adding new stash items using the namelist
+## Adding new stash items using the namelist
 
 
 • Can add them manually using the namelist :-
@@ -273,7 +268,7 @@ Adding new stash items using the namelist
 
 
 
-Adding new usage etc. profiles
+## Adding new usage etc. profiles
 
 
 • Did this via the text file (e.g. see  u-ai864/app/um/rose-app.conf)
@@ -336,7 +331,7 @@ use_name='ice_vars_3d'
 
 
 
-Copying stash from one job to another
+## Copying stash from one job to another
 
 
 
@@ -472,7 +467,7 @@ Phil
 
 
 
-Changing wallclock time of global model
+## Changing wallclock time of global model
 
 
 ○ Look in suite-runtime-dm.rc in your roses directory. Search for walltime. This will control the driving model. Paul's is set at 15 minutes.
@@ -495,7 +490,7 @@ Changing wallclock time of global model
 
 
 
-Changing wallclock for forecast job
+## Changing wallclock for forecast job
 
 § rose-suite.conf
 
@@ -503,7 +498,7 @@ Changing wallclock for forecast job
 
 
 
-Changing for reconfiguration job
+## Changing for reconfiguration job
 
 ○ Search for walltime in the following files. Is located in several sections - change the one with "UM reconfiguration" heading above  :-
 
@@ -521,7 +516,7 @@ Changing for reconfiguration job
 
 
 
-Changing the project for a rose suite
+## Changing the project for a rose suite
 
 
 • Add :-
@@ -554,14 +549,7 @@ Pasted from <https://collab.metoffice.gov.uk/twiki/bin/view/Support/NEXCS>
 
 
 
-
-
-
-
-
-
-Misc
-
+## Misc
 
 • Hasnan function - can test any array, vector, etc. for occurrence of NaN - slows the code down though.
 
@@ -569,7 +557,7 @@ Misc
 
 
 
-Compiling with Rose
+## Compiling with Rose
 
 
 • Presumably won't need to stop and re-start the suite after editing the code? Can hopefully just re-trigger the compile process from rose sgc.
@@ -592,8 +580,7 @@ Compiling with Rose
 
 
 
-Holding all the jobs in Rose
-
+## Holding all the jobs in Rose
 
 • rose suite-run -- --hold
 
@@ -603,7 +590,8 @@ Holding all the jobs in Rose
 
 
 
-Rotated pole
+## Rotated pole
+
 The nested suites can use a rotated pole whereby the model grid is treated as though the centre of the domain is on the equator. This means that the regularly-spaced grid in latitude and longitude that the nested suites use is closer to a regularly-spaced grid in real distance than it would be if the nest was nearer the poles (due to the lines of longitude getting closer together in terms of distance at higher latitudes).
 
 Here is an example Python function to unrotate the pole and get the actual lat/lon coordinates for a nested domain with rotated pole. See the next entry for where to find the pole latitude and longitude :-
@@ -694,8 +682,7 @@ def read_lat_lon_UM(cube,pole_lat,pole_lon):
 
 
 
-Pole lat and lon
-
+## Pole lat and lon
 
 • Can be found in e.g. :-
 
@@ -704,10 +691,7 @@ Pole lat and lon
 (As POLE_LAT and POLE_LON).
 
 
-
-
-
-Using different revisions of the trunk
+## Using different revisions of the trunk
 
 
 • Trying using this in the rose-app.conf file :-
@@ -725,9 +709,7 @@ Using different revisions of the trunk
 18.25-3.90 = 14.35 
 
 
-
-Comparing different suites on monsoon (differences between suites)
-
+## Comparing different suites on monsoon (differences between suites)
 
 Use the online tool, e.g. :-  https://code.metoffice.gov.uk/trac/roses-u/browser/a/f/5/0/1/
 
@@ -736,15 +718,7 @@ Use the online tool, e.g. :-  https://code.metoffice.gov.uk/trac/roses-u/browser
 • Can also send a link to someone else using this method to show them the diffs.
 
 
-
-
-
-
-
-
-
-Revision changes (online) for Rose suites
-
+## Revision changes (online) for Rose suites
 
 • E.g. :-
 
@@ -755,10 +729,7 @@ Revision changes (online) for Rose suites
 ○ Then can go to revision log and view changes etc.
 
 
-
-
-
-Where to find the suite revision that was actually run
+## Where to find the suite revision that was actually run
 
 
 • In e.g.  directory ~/cylc-run/u-ad809/log  :-
@@ -776,13 +747,7 @@ rose-suite-run.version:Last Changed Rev: 15208
 rose-suite-run.version:--- rose-suite.conf      (revision 15208)
 
 
-
-
-
-
-
-Changing timestep
-
+## Changing timestep
 
 • Namelist method (or can do in rose edit) :-
 
@@ -799,13 +764,7 @@ Changing timestep
 • N.B. - is also possible to separately change the mphys timestep (via mphys_switches.F90 using max_step_length - not tried this, though).
 
 
-
-
-
-
-
-Runtime errors involving BicGstab
-
+## Runtime errors involving BicGstab
 
        These are hard to diagnose but I have once or twice found they can be caused by problems or instabilities introduced by settings in the radiation scheme. 
 
@@ -815,13 +774,9 @@ in the convection scheme for a few days. Other possibilities include just changi
 
 
 
-Bounds checking
-
-
+## Bounds checking
 
 Hi Dan
-
- 
 
 I have not tested this, so you may need to do some trial and error but the way to turn on bounds checking is as follows.
 
@@ -842,8 +797,6 @@ Hope this is a help
  
 
 Cheers
-
- 
 
 Adrian
 
@@ -911,18 +864,7 @@ casim_drivers_list.F90             diaghelp_um.F90                       stub
 
 
 
-
-
-
-
-
-
-
-
-
-
-Making it use the BCs (boundary conditions) from previous global runs on disk (not same suite).
-
+## Making a run use the BCs (boundary conditions) from previous global runs on disk (not same suite).
 
 • Rose edit --> Driving model --> 
 
@@ -949,13 +891,7 @@ Making it use the BCs (boundary conditions) from previous global runs on disk (n
 ○ Re-starting just the forecast job (with cylcling)
 
 
-
-
-
-
-
-Issue with there being more than 60 files in namelist (failure of *frame* jobs) for making boundary conditions.
-
+## Issue with there being more than 60 files in namelist (failure of *frame* jobs) for making boundary conditions.
 
 • Change to the correct suite name in this python script :-
 
@@ -974,66 +910,9 @@ Issue with there being more than 60 files in namelist (failure of *frame* jobs) 
 • Then set the *frame* jobs to suceeded in rose sgc (to cause the createbc jobs to start).
 
 
+## Checking disk quota
 
-
-
-
-
-Rosebush online viewer
-
-
-
-• From rose server :-
-
-○ firefox http://localhost/rose-bush/suites?user=$USER 2>/dev/null &
-
-○ This will open a page with the list of your active suites and you can use the 'job lists' tab to check status of the tasks.
-
-
-
-716381544/1e6=716.3815      4294967296/1e6 = 4294.9673 
-
-
-
-Pasted from <http://collab.metoffice.gov.uk/twiki/bin/viewfile/Static/SystemMonitoring/Reports/latest_quota_report.txt>
-
-
-
-
-
-
-
-
-
-
-
- 
-
-Checking disk quota
-
-
-
-• This one is actually more readable:-
-
-○ https://collab.metoffice.gov.uk/twiki/bin/viewfile/Static/SystemMonitoring/Reports/quota_summary.txt
-
-• More detailed, but not as clear version :-
-
-• https://collab.metoffice.gov.uk/twiki/bin/viewfile/Static/SystemMonitoring/Reports/lustre_multi
-
-• Think is only updated daily.
-
-• Can also do :-
-
-○ quota.py -g nexcs-n02 lustre_multi
-
-
-
-• The numbers here appear different to the above, so maybe this is more real-time?
-
-• This is where I found the info:-
-
-○ https://collab.metoffice.gov.uk/twiki/bin/view/Support/FileSystems#Quotas
+• quota.py -g <PROJECT_NAME> lustre_multi
 
 • *** Had a problem in Jan 2018 where I could not write large files to /projects/ (error saying "No space left on device" even though the projects were  not over-quota. It seems that there is an individual limit, but that other people's files were contributing (not sure which files since I was at 40TB, but asci alone was using 67TB.)
 
@@ -1042,44 +921,20 @@ Checking disk quota
 quota.py -u lustre_multi
 
 
+## Supercomputer quota
 
-Disk quotas for user dgrosv (uid 30308):
-
-Filesystem           TB    Quota       %  |      Files      Quota       %
-
---------------  -------  -------  ------  |  ---------  ---------  ------
-
-/.lustre_multi    43.38    60.00   72.29  |    6995635          0    0.00
-
-§ 
-
-○ (My quota was raised to 60 TB - and then to 80 TB).
-
-
-
-
-
-
-
-
-
-Supercomputer quota
 You can type "aboutme" on Monsoon and then look at the "Fairshare" value. This goes from -12 (bad) to +12 (good). If you have low values then your runs will be penalised relative to the other supercomputer jobs (so you will have to wait longer before they run). The Fairshare value depends on whether and by how much you have gone over your quota.
 
 
 
 
 
-Issue of Rose not showing the run length for the nests.
-
+## Issue of Rose not showing the run length for the nests.
 
 • Need to set FREE_RUN to FALSE to get this back (I guess it is a bit of a bug since if not using cycling then the free_run switch should be irrelevant).
 
 
-
-
-
-Re-starting a run using the start dumps from part way through (with cylcling)
+## Re-starting a run using the start dumps from part way through (with cylcling)
 
 
 Hi Dan,
@@ -1123,11 +978,7 @@ Chris
 • Tried this for u-af178 and it seemed to work ok.
 
 
-
-
-
-Re-starting just the forecast job (with cycling)
-
+## Re-starting just the forecast job (with cycling)
 
 • Want to re-run just the forecast job, but the previous days bubble in rose sgc in not accessible.
 
@@ -1157,8 +1008,7 @@ Re-starting just the forecast job (with cycling)
 
 
 
-Issues with app/fcm_make/rose-app.conf file and compilation
-
+## Issues with app/fcm_make/rose-app.conf file and compilation
 
 • For a new run (u-ag688)  I was getting errors at the fcm_make_lam and fcm_make_glm stages :-
 
@@ -1212,10 +1062,7 @@ casim_sources=/projects/asci/dgrosv/um_code/r1098_r328_casim_cloud_scheme969
 
 
 
-OMP threads (factor of 2 increase in no Pes over what is expected)
-
-
-
+## OMP threads (factor of 2 increase in no PEs over what is expected)
 
 * If OMP_NUM_THREADS is set to more than 1 (e.g. N) in suite-runtime-lams.rc then the number of nodes used will be N times bigger than would be expected from from just the number of processors in x and y as set in the GUI.
 
@@ -1245,19 +1092,17 @@ OMP threads (factor of 2 increase in no Pes over what is expected)
 
 
 
-Checking to see the code that was actually compiled
-
+## Checking to see the code that was actually compiled
 
 • Look in e.g. :-
 
-○ ~/cylc-run/u-aq608/share/fcm_make_lam/extract/
+○ ~/cylc-run/<SUITE_NAME>/share/fcm_make_um/extract/
 
 ○ Has folders for casim and um where can find the respective code files that were compiled.
 
 
 
-Switching off tracer BL mixing
-
+## Switching off tracer BL mixing
 
 • Done in the rose suite :-
 
@@ -1265,17 +1110,11 @@ Switching off tracer BL mixing
 
 
 
-Start files in .pax format
+## Start files in .pax format
 
+These are packed start files.
 
-They are packed. I’m downloading them to 
-
-/projects/asci/frfp/startfiles/*QU00.20090301.pax
-
-
-
-There are 5or 6 of them. You need to unpack them to find which one has the start file in it using this command.
-
+You need to unpack them to find which one has the start file in it using this command :-
 
 
 pax -rf coprr.??QU00.20090301.pax
@@ -1286,15 +1125,8 @@ and then its something like: qwqu00.T+0
 
 
 
-cheers
 
-Paul
-
-
-
-
-
-Postprocessing on xcs
+## Postprocessing on xcs
 
 
 Can run e.g. xconv by doing :-
@@ -1307,7 +1139,7 @@ Can run Python, but have to do this first :-
 
 
 
-Script from Mohit for converting from 360 to Gregorian :-
+## Script from Mohit for converting from 360 to Gregorian :-
 
 
 ® Copied from Hamish's :-
@@ -1324,7 +1156,7 @@ Script from Mohit for converting from 360 to Gregorian :-
 
 
 
-Set MASS storage from double copy (duplex) to single copy (simplex)
+## Set MASS storage from double copy (duplex) to single copy (simplex)
 
 
 
@@ -1359,8 +1191,7 @@ app/install_cold/opt/rose-app-mo.conf:default=moo mkset moose:/devfc/$ROSE_SUITE
 
 
 
-Preventing deletion of *da* dumps
-
+## Preventing deletion of *da* dumps
 
 Could be this line in :-
 
@@ -1373,52 +1204,7 @@ ls -tr *a_da* | head -n -1 | xargs --no-run-if-empty rm
 ® Testing in job u-ax336
 
 
-
-
-
-
-
-Using gui aerosol profile input instead of namelist file
-
-
-® Since in v10.8 the namelist file option is read in many times causing slowdown and file issues.
-
-® Instructions from Jonathan :-
-
-Meanwhile, if you wish to move to using the GUI:
-
-1)    Open the GUI and change casim_aerosol_couple_choice to be ‘Free Tracers (gui).
-
-2)    Save and close the GUI.
-
-3)    Use the attached python script to convert your namelist into a text file. Hopefully the instructions within should be helpful.
-
-4)    Replace the namelist: run_casim_tracer in your UM rose-app.conf file with the values you get from the text file.
-
-5)    Reopen the GUI and check that the tracer input all looks sensible.
-
-6)    Check and Save and submit a short test job – hopefully you should get the same answers as your previous runs.
-
-7)    If you need to change your aerosols again, do so in the GUI.
-
- 
-
-Eventually, my intention is to remove the namelist (external file) option altogether, but I’m keeping it there for a while to let people transfer over.
-
-® Conversion script is saved in :-
-
-◊ C:\Users\Dan\Documents\logbook\Leeds_2013\research\UM\scripts\namelist_to_gui.py
-
-® And on Monsoon :-
-
-
-
-
-
-
-
-Python IRIS WGDOS unpack error
-
+## Python IRIS WGDOS unpack error
 
 ® ???
 
@@ -1430,7 +1216,7 @@ Python IRIS WGDOS unpack error
 
 ◊ Type "ipython" to load it.
 
-◊ Then run DRIVER*.py
+◊ Then run your post processing scripts (e.g. DRIVER*.py).
 
 ◊ Seems to work ok.
 
@@ -1438,8 +1224,7 @@ Python IRIS WGDOS unpack error
 
 
 
-Disk full messages due to log files
-
+## Disk full messages due to log files
 
 ® Not sure if this is the cause, but this is where they are:-
 
@@ -1449,14 +1234,13 @@ Disk full messages due to log files
 
 ◊ quota.py -u lustre_multi
 
-◊ See here : Checking disk quota
+◊ See  "Checking disk quota"
 
 
 
 
 
-Number of land points nlandpts recon error
-
+## Number of land points nlandpts recon error
 
 ® Number of land points error in recon for nest
 
@@ -1492,19 +1276,11 @@ Number of land points nlandpts recon error
 
                         ????????????????????????????????????????????????????????????????????????????????
 
-
-
-
-
-
-
-
-
 ○ In this case set it to 90000
 
 
+## Nudging global model in VN11.7 nesting suite
 
-Nudging global model in VN11.7 nesting suite
 As well as switching on nudging and pointing it to the directory with the ERA5 nudging files in I had to :-
 
 Add a stash request for 30-451, TALLTS and a nudging macro.
@@ -1518,7 +1294,8 @@ See this changeset for what was done (ignore the changes related to emissions) :
 https://code.metoffice.gov.uk/trac/roses-u/changeset?reponame=&new=196867%40c%2Ff%2F1%2F4%2F5&old=196667%40c%2Ff%2F1%2F4%2F5
 
 
-"No hosts selected" upon rose suite-run
+## "No hosts selected" upon rose suite-run
+
 Had an error saying that no host was selected.
 Had to change the xc40 host to :-
 HOST_XC40='xcs-c'
