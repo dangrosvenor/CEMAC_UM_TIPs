@@ -456,85 +456,48 @@ The nested suites can use a rotated pole whereby the model grid is treated as th
 Here is an example Python function to unrotate the pole and get the actual lat/lon coordinates for a nested domain with rotated pole. See the next entry for where to find the pole latitude and longitude :-
 
 
-def read_lat_lon_UM(cube,pole_lat,pole_lon):
+	def read_lat_lon_UM(cube,pole_lat,pole_lon):
 
+		import iris.analysis.cartography as iac  #required for unrotate pole, etc.
 
+		iglobal=0
+		try:
+			lat_read = cube.coord('grid_latitude').points
+			lon_read = cube.coord('grid_longitude').points
 
-        import iris.analysis.cartography as iac  #required for unrotate pole, etc.
+		except:
+			lat_read = cube.coord('latitude').points
+			lon_read = cube.coord('longitude').points
+			iglobal = 1
 
+		nX = len(lon_read)
+		nY = len(lat_read)
 
-
-        iglobal=0
-
-        try:
-
-                lat_read = cube.coord('grid_latitude').points
-
-                lon_read = cube.coord('grid_longitude').points
-
-        except:
-
-                lat_read = cube.coord('latitude').points
-
-                lon_read = cube.coord('longitude').points
-
-                iglobal = 1
-
-
-
-
-
-        nX = len(lon_read)
-
-        nY = len(lat_read)
+		#Get the shape of the arrays (i.e. number of elements in array in each dimension
+		#These arrays are single vectors of size e.g. 500 x 1 
+		sh_lat = lat_read.shape
+		sh_lon = lon_read.shape
 
 
 
 
 
-        #Get the shape of the arrays (i.e. number of elements in array in each dimension
+		#replicate the 1D arrays in 2D arrays using the shapes of the other array (e.g. shape of lat for the lon replication)
+		lat2d=np.tile(lat_read,[sh_lon[0],1])
+		lon2d=np.tile(lon_read,[sh_lat[0],1])
 
-        #These arrays are single vectors of size e.g. 500 x 1 
+		lon2d_2=lon2d
+		lat2d_2=np.transpose(lat2d)  #Transpose (swap dimensions) of the 2D lat array to make it correspond to the location on a 2D grid
 
-        sh_lat = lat_read.shape
+		if iglobal==0:
+			#Unrotate the pole using the IRIS utility
+			lon, lat = iac.unrotate_pole(lon2d_2, lat2d_2, pole_lon, pole_lat)
 
-        sh_lon = lon_read.shape
+		else:
+			lat = lat2d_2
+			lon = lon2d_2
 
-
-
-
-
-        #replicate the 1D arrays in 2D arrays using the shapes of the other array (e.g. shape of lat for the lon replication)
-
-        lat2d=np.tile(lat_read,[sh_lon[0],1])
-
-        lon2d=np.tile(lon_read,[sh_lat[0],1])
-
-
-
-        lon2d_2=lon2d
-
-        lat2d_2=np.transpose(lat2d)  #Transpose (swap dimensions) of the 2D lat array to make it correspond to the location on a 2D grid
-
-
-
-        if iglobal==0:
-
-                #Unrotate the pole using the IRIS utility
-
-                lon, lat = iac.unrotate_pole(lon2d_2, lat2d_2, pole_lon, pole_lat)
-
-        else:
-
-                lat = lat2d_2
-
-                lon = lon2d_2
-
-
-
-
-
-        return (lat,lon,sh_lat,sh_lon,nX,nY,iglobal)
+		return (lat,lon,sh_lat,sh_lon,nX,nY,iglobal)
 
 
 
