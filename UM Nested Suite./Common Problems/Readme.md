@@ -496,99 +496,74 @@ Here is an example Python function to unrotate the pole and get the actual lat/l
 		return (lat,lon,sh_lat,sh_lon,nX,nY,iglobal)
 
 
-
-
-
 ## Pole lat and lon
 
-• Can be found in e.g. :-
+One place to find this is e.g. :-
 
-○ /home/d02/dgrosv/cylc-run/u-ab218/log.20160201T153530Z/job/20140831T0000Z/Iceland_4p0_L70_ukv_um_fcst_008/NN/job 
+	~/cylc-run/<SUITE_NAME>/log/job/<CYCLE_DATE>/*_um_fcst_000/NN/job 
 
 (As POLE_LAT and POLE_LON).
-
-
-## Using different revisions of the trunk
-
-
-• Trying using this in the rose-app.conf file :-
-
-○ casim_sources=https://code.metoffice.gov.uk/svn/monc/casim@409
-
-§ Didn't work…
-
-• This worked, though :-
-
-○ casim_sources=svn://puma.nerc.ac.uk/monc.xm_svn/casim/trunk@409
-
-
-
-18.25-3.90 = 14.35 
 
 
 ## Comparing different suites on monsoon (differences between suites)
 
 Use the online tool, e.g. :-  https://code.metoffice.gov.uk/trac/roses-u/browser/a/f/5/0/1/
 
-• Just click on view changes and then can compare two different suites at any revision required.
+	Just click on view changes and then can compare two different suites at any revision required.
 
-• Can also send a link to someone else using this method to show them the diffs.
+	Can also send a link to someone else using this method to show them the diffs.
 
 
 ## Revision changes (online) for Rose suites
 
-• E.g. :-
+E.g. :-
 
-○ https://code.metoffice.gov.uk/trac/roses-u/browser/a/d/8/0/9
+	https://code.metoffice.gov.uk/trac/roses-u/browser/a/d/8/0/9
 
-○ Just replace with the name of the rose suite required.
+Just replace with the name of the rose suite required.
 
-○ Then can go to revision log and view changes etc.
-
-
-## Where to find the suite revision that was actually run
+	Then can go to revision log and view changes etc.
 
 
-• In e.g.  directory ~/cylc-run/u-ad809/log  :-
+## Where to find the Rose suite revision that was actually run
 
-rose-conf/20160705T094053-restart.version:Revision: 15208
+	cd to directory ~/cylc-run/u-ad809/log
 
-rose-conf/20160705T094053-restart.version:Last Changed Rev: 15208
+	ls -la
 
-rose-conf/20160705T094053-restart.version:--- rose-suite.conf   (revision 15208)
+		rose-conf/20160705T094053-restart.version:Revision: 15208
 
-rose-suite-run.version:Revision: 15208
+		rose-conf/20160705T094053-restart.version:Last Changed Rev: 15208
 
-rose-suite-run.version:Last Changed Rev: 15208
+		rose-conf/20160705T094053-restart.version:--- rose-suite.conf   (revision 15208)
 
-rose-suite-run.version:--- rose-suite.conf      (revision 15208)
+		rose-suite-run.version:Revision: 15208
+
+		rose-suite-run.version:Last Changed Rev: 15208
+
+		rose-suite-run.version:--- rose-suite.conf      (revision 15208)
 
 
 ## Changing timestep
 
-• Namelist method (or can do in rose edit) :-
+Namelist method (or can do in rose edit) :-
 
-○ roses/rose-suite.conf:rg01_rs01_m01_dt=15
+	roses/rose-suite.conf:rg01_rs01_m01_dt=15
 
-○ Is an option in rose edit  for no. timesteps in period :-
+	Is an option in rose edit  for no. timesteps in period :-
 
-§ UM - namelist - top level - model domain and timestep
+		UM - namelist - top level - model domain and timestep
 
-§ , but does not work on its own (do both have to be changed?)
+		, but does not work on its own (do both have to be changed?)
 
-
-
-• N.B. - is also possible to separately change the mphys timestep (via mphys_switches.F90 using max_step_length - not tried this, though).
+N.B. - is also possible to separately change the mphys timestep (via mphys_switches.F90 using max_step_length - not tried this, though).
 
 
 ## Runtime errors involving BicGstab
 
-       These are hard to diagnose but I have once or twice found they can be caused by problems or instabilities introduced by settings in the radiation scheme. 
+These are hard to diagnose but I have once or twice found they can be caused by problems or instabilities introduced by settings in the radiation scheme. 
 
-See also https://code.metoffice.gov.uk/trac/um/wiki/KnownUMFailurePoints. Mohit suggests that in global runs it may help to change n_conv_calls from 2 to 3 
-
-in the convection scheme for a few days. Other possibilities include just changing the model timestep or the microphysics substep. 
-
+See also https://code.metoffice.gov.uk/trac/um/wiki/KnownUMFailurePoints. Mohit suggests that in global runs it may help to change n_conv_calls from 2 to 3 in the convection scheme for a few days. Other possibilities include just changing the model timestep or the microphysics substep. 
 
 
 ## Bounds checking
@@ -607,124 +582,102 @@ build-atmos.prop{fc.flags}[um/src/] = $fcflags_common –R b
 
 The –R b does the bounds check I think. As with previous version of the UM I would not apply bounds checking to the whole UM as it will fail where you may not expect it to fail
 
- 
-
 Hope this is a help
 
- 
-
 Cheers
-
 Adrian
-
 
 
 Also from Adrian :-
 
-• It depends what you want to bounds check – do you just want to check CASIM or is there stuff in jonathans branch that you want to test?
+It depends what you want to bounds check – do you just want to check CASIM or is there stuff in jonathans branch that you want to test?
 
-○ If it is the latter, I would suggest that you need to create a branch from Jonathans and then edit the config in your new branch and build that.
+If it is the latter, I would suggest that you need to create a branch from Jonathans and then edit the config in your new branch and build that.
 
-• In your rose_app.conf (under your suite) I think you need to change your config_revision and config_root_path to your revision and your branch and then any changes you make in your branch will be picked up (I think)
+In your rose_app.conf (under your suite) I think you need to change your config_revision and config_root_path to your revision and your branch and then any changes you make in your branch will be picked up (I think)
 
-• I do not think the line below will work because micro_main does not exist un um/src/
+I do not think the line below will work because micro_main does not exist un um/src/
 
-○ Trying um/src/atmosphere/large_scale_precipitation/CASIM/micro_main.F90
+Trying um/src/atmosphere/large_scale_precipitation/CASIM/micro_main.F90
 
-○ Actually should be casim/micro_main.F90 I think. The /projects/vaci/dgrosv/cylc-run/u-af368/share/fcm_make_lam/extract/um folder contains the coupling side of CASIM :-
+Actually should be casim/micro_main.F90 I think. The /projects/vaci/dgrosv/cylc-run/u-af368/share/fcm_make_lam/extract/um folder contains the coupling side of CASIM :-
 
-aerosol_casim_couple_switches.F90  casim_prognostics.F90                 lbc_cloud_ice_number.F90
+	aerosol_casim_couple_switches.F90  casim_prognostics.F90                 lbc_cloud_ice_number.F90
 
-aerosol_extract_return.F90         casim_set_dependent_switches_mod.F90  mphys_casim_diagnostics.F90
+	aerosol_extract_return.F90         casim_set_dependent_switches_mod.F90  mphys_casim_diagnostics.F90
 
-casim_check_in_fields.F90          casim_switches.F90                    mphys_casim_um.F90
+	casim_check_in_fields.F90          casim_switches.F90                    mphys_casim_um.F90
 
-casim_check_out_fields.F90         casim_work_arrays.F90                 read_aerosol_profile.F90
+	casim_check_out_fields.F90         casim_work_arrays.F90                 read_aerosol_profile.F90
 
-casim_ctl.F90                      check_casim_diags.F90                 scm_code_tmp.F90
+	casim_ctl.F90                      check_casim_diags.F90                 scm_code_tmp.F90
 
-casim_driver_name.F90              cld_frac_scheme.F90                   ship_tracks.F90
+	casim_driver_name.F90              cld_frac_scheme.F90                   ship_tracks.F90
 
-casim_drivers_list.F90             diaghelp_um.F90                       stub
+	casim_drivers_list.F90             diaghelp_um.F90                       stub
 
-○ Whereas micro_main.F90 etc. are inprojects/vaci/dgrosv/cylc-run/u-af368/share/fcm_make_lam/extract/casim/ :-
+Whereas micro_main.F90 etc. are inprojects/vaci/dgrosv/cylc-run/u-af368/share/fcm_make_lam/extract/casim/ :-
 
+Since this is the general path usually followed to micro_main.F90. E.g. see :
 
+	/projects/vaci/dgrosv/cylc-run/u-af250/share/fcm_make_lam/extract/um/src/atmosphere/large_scale_precipitation/CASIM/micro_main.F90
 
-○ Since this is the general path usually followed to micro_main.F90. E.g. see :-
+So will try :
+	build-atmos.prop{fc.flags}[casim/micro_main.F90] = $fcflags_common -R b
 
-§ /projects/vaci/dgrosv/cylc-run/u-af250/share/fcm_make_lam/extract/um/src/atmosphere/large_scale_precipitation/CASIM/micro_main.F90
+Notes :
 
-○ So will try :-
+	N.B. - do this in the UM side of the code (not rose suite).
 
-§ build-atmos.prop{fc.flags}[casim/micro_main.F90] = $fcflags_common -R b
+	Also, need to set the conf branch to use this (and e.g. not Johnathan's).
 
+	Have also just noticed that there is a folder called :-
 
+		monsoon-xc40-cce  (as opposed to meto-xc40-cce).
 
+		It seems to have the same files in it - maybe this one should be used for Monsoon and not the other one?
 
-
-
-
-• Notes :-
-
-○ N.B. - do this in the UM side of the code (not rose suite).
-
-○ Also, need to set the conf branch to use this (and e.g. not Johnathan's).
-
-○ Have also just noticed that there is a folder called :-
-
-§ monsoon-xc40-cce  (as opposed to meto-xc40-cce).
-
-§ It seems to have the same files in it - maybe this one should be used for Monsoon and not the other one?
-
-○ Paul suggests modifying the extract directory on Monsoon once it has done the install (and then compiling) to make sure the file has been changed.
-
+	Paul suggests modifying the extract directory on Monsoon once it has done the install (and then compiling) to make sure the file has been changed.
 
 
 ## Making a run use the BCs (boundary conditions) from previous global runs on disk (not same suite).
 
-• Rose edit --> Driving model --> 
+Rose edit --> Driving model --> 
 
-○ For RUN_MODE set to Use files on disk
+	For RUN_MODE set to Use files on disk
 
-• Then add the path to the cb files created previous LAM folders, e.g. ;
+Then add the path to the cb files created previous LAM folders, e.g. ;
 
-○ /projects/asci/dgrosv/cylc-run/u-ab218/share/cycle/20140831T0000Z/glm/um/umglaa_cb???
+	/projects/asci/dgrosv/cylc-run/u-ab218/share/cycle/20140831T0000Z/glm/um/umglaa_cb???
 
-§ Remembering the ??? Wildcard
+		Remembering the ??? Wildcard
 
-○ Not sure how this would work when using cycling?
+	Not sure how this would work when using cycling?
 
-§ Maybe change the date to be YYYMMDD ?
+		Maybe change the date to be YYYMMDD ?
 
-§ Trying :
+		Trying :
 
-□ /projects/asci/dgrosv/cylc-run/u-ad809/share/cycle/2014mmddT0000Z/glm/um/umglaa_cb???
-
-
-
-• Could use this technique - although might have to copy the cb files, etc. to the correct dir structure :
-
-○ Re-starting just the forecast job (with cylcling)
+			/projects/asci/dgrosv/cylc-run/u-ad809/share/cycle/2014mmddT0000Z/glm/um/umglaa_cb???
 
 
 ## Issue with there being more than 60 files in namelist (failure of *frame* jobs) for making boundary conditions.
 
-• Change to the correct suite name in this python script :-
+Change to the correct suite name in this python script :-
 
-○ /home/d02/dgrosv/scripts/hack-frame-namelists_DPG.py
+	/home/d02/dgrosv/scripts/hack-frame-namelists_DPG.py
 
-• Also set N to be the number of hours in each CRUN.
+Also set N to be the number of hours in each CRUN.
 
-• Run the python script (from any directory).
+Run the python script (from any directory).
 
-• Then change the bash script :-
+Then change the bash script :-
 
-○ run_hack-frame-namelists.sh
+	run_hack-frame-namelists.sh
 
-• To add in the suite name and the frame number to start from.
+To add in the suite name and the frame number to start from.
 
-• Then set the *frame* jobs to suceeded in rose sgc (to cause the createbc jobs to start).
+Then set the *frame* jobs to suceeded in rose sgc (to cause the createbc jobs to start).
 
 
 ## Checking disk quota
@@ -743,32 +696,20 @@ quota.py -u lustre_multi
 You can type "aboutme" on Monsoon and then look at the "Fairshare" value. This goes from -12 (bad) to +12 (good). If you have low values then your runs will be penalised relative to the other supercomputer jobs (so you will have to wait longer before they run). The Fairshare value depends on whether and by how much you have gone over your quota.
 
 
-
-
-
 ## Issue of Rose not showing the run length for the nests.
 
-• Need to set FREE_RUN to FALSE to get this back (I guess it is a bit of a bug since if not using cycling then the free_run switch should be irrelevant).
+Need to set FREE_RUN to FALSE to get this back (I guess it is a bit of a bug since if not using cycling then the free_run switch should be irrelevant).
 
 
 ## Re-starting a run using the start dumps from part way through (with cylcling)
 
-
 Hi Dan,
-
-
 
 I think you can fix your suite, but it is a bit of a pain and one of those things where it would be much easier for me to help you if you were here.
 
-
-
 The first thing to do is take a temporary copy of your entire suite data directory. Then at least you can revert back to it if something goes horribly wrong!
 
-
-
 I would do the following:
-
-
 
 1.       Shutdown the suite (if it is still running), open up the rose edit GUI and change the INITIAL_CYCLE_POINT to 20140906T0000Z.  File --> Check & Save.
 
@@ -780,151 +721,111 @@ I would do the following:
 
 5.       Select Control -> Release suite to unpause the suite. It should then just run on to do the global and regional model forecast tasks for the 20140906T0000Z cycle, then continue as normal for the 20140907T0000Z cycle and on to completion. I hope.
 
-
-
 Cheers,
-
-
 
 Chris
 
 
-
-
-
-• Tried this for u-af178 and it seemed to work ok.
+Tried this for u-af178 and it seemed to work ok.
 
 
 ## Re-starting just the forecast job (with cycling)
 
-• Want to re-run just the forecast job, but the previous days bubble in rose sgc in not accessible.
+Want to re-run just the forecast job, but the previous days bubble in rose sgc in not accessible.
 
-• Trying to follow the procedure as above for u-ai864
+Trying to follow the procedure as above for u-ai864
 
-• Will do rose-suite run -- --hold
+Will do rose-suite run -- --hold
 
-○ This should start the suite again, but will pause allowing me to set the glm tasks to succeeded.
+	This should start the suite again, but will pause allowing me to set the glm tasks to succeeded.
 
-○ Note, probably not worth worrying about setting the frame and makebc tasks for the forecast jobs to succeeded, since is not much computation to do these I think.
+	Note, probably not worth worrying about setting the frame and makebc tasks for the forecast jobs to succeeded, since is not much computation to do these I think.
 
-○ So, just right click each glm top header and set to succeeded.
+	So, just right click each glm top header and set to succeeded.
 
-§ Note, the next day will only appear once have done this for the day before since only shows one day at a time.
+		Note, the next day will only appear once have done this for the day before since only shows one day at a time.
 
-○ Set all of these to suceeded :-
+	Set all of these to suceeded :-
 
-§ Install x2; ancil, build x2
+		Install x2; ancil, build x2
 
-○ But also have to keep HOUSEKEEPING for the starting day to waiting since otherwise it starts the next fcast job following link previous (using the dump created before presumably)
+	But also have to keep HOUSEKEEPING for the starting day to waiting since otherwise it starts the next fcast job following link previous (using the dump created before presumably)
 
-§ This will now not run until the fcast of the 1st day is finished.
+		This will now not run until the fcast of the 1st day is finished.
 
-○ The Control-release suite - seems to have worked - at least the fcast job is submitted.
-
-
-
+	The Control-release suite - seems to have worked - at least the fcast job is submitted.
 
 
 ## Issues with app/fcm_make/rose-app.conf file and compilation
 
-• For a new run (u-ag688)  I was getting errors at the fcm_make_lam and fcm_make_glm stages :-
+For a new run (u-ag688)  I was getting errors at the fcm_make_lam and fcm_make_glm stages :-
 
+	[FAIL] fcm make -f /work/projects/vaci/dgrosv/cylc-run/u-ag698/work/20081112T0000Z/fcm_make_lam/fcm-make.cfg -C /home/dgrosv/cylc-run/u-ag698/shar
 
+	e/fcm_make_lam -j 4 mirror.target=xcm:cylc-run/u-ag698/share/fcm_make_lam mirror.prop{config-file.name}=2 # return-code=255
 
-[FAIL] fcm make -f /work/projects/vaci/dgrosv/cylc-run/u-ag698/work/20081112T0000Z/fcm_make_lam/fcm-make.cfg -C /home/dgrosv/cylc-run/u-ag698/shar
+	Received signal ERR
 
-e/fcm_make_lam -j 4 mirror.target=xcm:cylc-run/u-ag698/share/fcm_make_lam mirror.prop{config-file.name}=2 # return-code=255
+	cylc (scheduler - 2016-10-03T11:23:33Z): CRITICAL Task job script received signal ERR at 2016-10-03T11:23:33Z
 
-Received signal ERR
+	cylc (scheduler - 2016-10-03T11:23:33Z): CRITICAL failed at 2016-10-03T11:23:33Z
 
-cylc (scheduler - 2016-10-03T11:23:33Z): CRITICAL Task job script received signal ERR at 2016-10-03T11:23:33Z
+	[FAIL] /work/projects/vaci/dgrosv/cylc-run/u-ag698/work/20081112T0000Z/fcm_make_lam/fcm-make.cfg:6: reference to undefined variable
 
-cylc (scheduler - 2016-10-03T11:23:33Z): CRITICAL failed at 2016-10-03T11:23:33Z
+	[FAIL] extract.location{diff}[casim] = 
 
-[FAIL] /work/projects/vaci/dgrosv/cylc-run/u-ag698/work/20081112T0000Z/fcm_make_lam/fcm-make.cfg:6: reference to undefined variable
+	[FAIL] undef($casim_sources)
 
-[FAIL] extract.location{diff}[casim] = 
+The rose-app.conf file looked like this at the start :-
 
-[FAIL] undef($casim_sources)
+	meta=um-fcm-make/vn10.3
 
+	[env]
 
+	casim_rev=vn0.0
 
-• The rose-app.conf file looked like this at the start :-
+	casim_sources=/projects/asci/dgrosv/um_code/r1098_r328_casim_cloud_scheme969
 
-meta=um-fcm-make/vn10.3
+	!!casim_sources=fcm:casim.xm_br/dev/danielgrosvenor/r1098_r328_casim_cloud_scheme969@1683
 
+	!!casim_sources=fcm:casim.xm_br/dev/danielgrosvenor/r328_casim_cloud_scheme@1592
 
+Seemed that just by swapping the commented out casim_sources lines with the uncommented one (i.e. so that commented ones appeared first) then it worked ok…???
 
-[env]
-
-casim_rev=vn0.0
-
-casim_sources=/projects/asci/dgrosv/um_code/r1098_r328_casim_cloud_scheme969
-
-!!casim_sources=fcm:casim.xm_br/dev/danielgrosvenor/r1098_r328_casim_cloud_scheme969@1683
-
-!!casim_sources=fcm:casim.xm_br/dev/danielgrosvenor/r328_casim_cloud_scheme@1592
-
-
-
-
-
-  • Seemed that just by swapping the commented out casim_sources lines with the uncommented one (i.e. so that commented ones appeared first) then it worked ok…???
-
-
-
-• Annette says that there is a GUI for fcm_make - using this might be safer and with fewer headaches because of these issues.
-
-
-
+Annette says that there is a GUI for fcm_make - using this might be safer and with fewer headaches because of these issues.
 
 
 ## OMP threads (factor of 2 increase in no PEs over what is expected)
 
-* If OMP_NUM_THREADS is set to more than 1 (e.g. N) in suite-runtime-lams.rc then the number of nodes used will be N times bigger than would be expected from from just the number of processors in x and y as set in the GUI.
+If OMP_NUM_THREADS is set to more than 1 (e.g. N) in suite-runtime-lams.rc then the number of nodes used will be N times bigger than would be expected from from just the number of processors in x and y as set in the GUI.
 
-* This is setting the number of Open MP tasks.
+This is setting the number of Open MP tasks.
 
-* In older UM versions Open MP did not produce much speedup (e.g., a 10% increase for a OMP_NUM_THREADS=2 for v8.5, or possibly v10.3, can't remember).
+In older UM versions Open MP did not produce much speedup (e.g., a 10% increase for a OMP_NUM_THREADS=2 for v8.5, or possibly v10.3, can't remember).
 
-* But asking for N times as many nodes might produce much larger queuing times.
+But asking for N times as many nodes might produce much larger queuing times.
 
-* In newer versions it is possible that the Open MP speedup is more efficient, but likely it is better to use more normal nodes first?
+In newer versions it is possible that the Open MP speedup is more efficient, but likely it is better to use more normal nodes first?
 
+Can also get some speedup by setting :-
 
+	{% set HYPERTHREADS = 2 %}
 
-* Can also get some speedup by setting :-
-
-○ {% set HYPERTHREADS = 2 %}
-
-○ This uses the same no. PES,  but runs two threads per PE. Think gives around a 10% speedup.
-
-
-
-
-
-
-
-
-
+This uses the same no. PES,  but runs two threads per PE. Think gives around a 10% speedup.
 
 
 ## Checking to see the code that was actually compiled
 
-• Look in e.g. :-
+Look in e.g. :
+	~/cylc-run/<SUITE_NAME>/share/fcm_make_um/extract/
 
-○ ~/cylc-run/<SUITE_NAME>/share/fcm_make_um/extract/
-
-○ Has folders for casim and um where can find the respective code files that were compiled.
-
+Has folders for casim and um where can find the respective code files that were compiled.
 
 
 ## Switching off tracer BL mixing
 
-• Done in the rose suite :-
-
-○ app/um/rose-app.conf:l_bl_tracer_mix=.false.
-
+Done in the rose suite :
+	app/um/rose-app.conf:l_bl_tracer_mix=.false.
 
 
 ## Start files in .pax format
@@ -933,140 +834,115 @@ These are packed start files.
 
 You need to unpack them to find which one has the start file in it using this command :-
 
-
-pax -rf coprr.??QU00.20090301.pax
+	pax -rf coprr.??QU00.20090301.pax
 
 cd op/daily/datawgl
 
 and then its something like: qwqu00.T+0 
 
 
-
-
 ## Postprocessing on xcs
-
 
 Can run e.g. xconv by doing :-
 
-$UMDIR/bin/xconv
+	$UMDIR/bin/xconv
 
 Can run Python, but have to do this first :-
 
-                module load scitools
-
+	module load scitools
 
 
 ## Script from Mohit for converting from 360 to Gregorian :-
 
+Copied from Hamish's :-
 
-® Copied from Hamish's :-
+	~hamgo/scripts_namelists/mod_dates.sub
 
-◊ ~hamgo/scripts_namelists/mod_dates.sub
+Copied the script and amended it to work for me :-
 
-® Copied the script and amended it to work for me :-
+	/home/d02/dgrosv/py/ukca/cal_360_to_Greg/mod_dates.sub
 
-◊ /home/d02/dgrosv/py/ukca/cal_360_to_Greg/mod_dates.sub
+Points to the ancils in $UMDIR.
 
-◊ Points to the ancils in $UMDIR.
-
-◊ Run from the dir where you want to write them - amended files will be put in out/ folder.
-
+Run from the dir where you want to write them - amended files will be put in out/ folder.
 
 
 ## Set MASS storage from double copy (duplex) to single copy (simplex)
 
+Hello Everyone
 
-
-
-® Hello Everyone
-
-We’ve been asked to ensure that our archiving is single-copy rather than duplex on the mass archive. You can’t change the old ones, but for new ones you can fix the issue by changing the mkset command in the ‘install_cold/opt’ app in the options file: rose-app-monsoon-cray-xc40.conf
-
+We’ve been asked to ensure that our archiving is single-copy rather than duplex on the mass archive. You can’t change the old ones, but for new ones you can fix the issue by changing the mkset command in the ‘install_cold/opt’ app in the options file: 	rose-app-monsoon-cray-xc40.conf
 to include the –single-copy (otherwise default is duplex).
 
- 
+	[command]
 
-[command]
-
-default=moo mkset --single-copy -p project-${CHARGING_CODE} moose:/devfc/$ROSE_SUITE_NAME || true
-
-
+	default=moo mkset --single-copy -p project-${CHARGING_CODE} moose:/devfc/$ROSE_SUITE_NAME || true
 
 N.B. - I can only find these files that fit the bill, so presumably it must be them :-
 
+	$ grep -ri "moo mkset" *
 
+	app/install_cold/opt/rose-app-monsoon.conf:default=moo mkset -p project-$PROJECT moose:/devfc/$ROSE_SUITE_NAME || true
 
-$ grep -ri "moo mkset" *
-
- 
-
-app/install_cold/opt/rose-app-monsoon.conf:default=moo mkset -p project-$PROJECT moose:/devfc/$ROSE_SUITE_NAME || true
-
-app/install_cold/opt/rose-app-mo.conf:default=moo mkset moose:/devfc/$ROSE_SUITE_NAME || true
-
-
-
+	app/install_cold/opt/rose-app-mo.conf:default=moo mkset moose:/devfc/$ROSE_SUITE_NAME || true
 
 
 ## Preventing deletion of *da* dumps
 
-Could be this line in :-
+Think it is this line in :-
 
-® suite-runtime-dm.rc:
+	suite-runtime/lams.rc (nest)
+or
 
-® suite-runtime-lams.rc
+	suite-runtime/dm.rc (global model)
 
 ls -tr *a_da* | head -n -1 | xargs --no-run-if-empty rm
 
-® Testing in job u-ax336
+(Testing in job u-ax336)
 
 
 ## Python IRIS WGDOS unpack error
 
-® ???
+???
 
-® Is an error that occasionally occurs when trying to access data from a cube using IRIS.
+Is an error that occasionally occurs when trying to access data from a cube using IRIS.
 
-® Seems to not happen if have an embed point before the command and then continue (so that it is running in ipython I guess).
+Seems to not happen if have an embed point before the command and then continue (so that it is running in ipython I guess).
 
-® So, one option could be to run the script from ipython.
+So, one option could be to run the script from ipython.
 
-◊ Type "ipython" to load it.
+Type "ipython" to load it.
 
-◊ Then run your post processing scripts (e.g. DRIVER*.py).
+Then run your post processing scripts (e.g. DRIVER*.py).
 
-◊ Seems to work ok.
+Seems to work ok.
 
-® The other could be to copy the files to JASMIN and run from there as the error doesn't seem to occur there.
+The other could be to copy the files to JASMIN and run from there as the error doesn't seem to occur there.
 
 
 
 ## Disk full messages due to log files
 
-® Not sure if this is the cause, but this is where they are:-
+Not sure if this is the cause, but this is where they are:-
 
-◊ /home/d02/dgrosv/cylc-run/suite_name/log/
+	/home/d02/dgrosv/cylc-run/suite_name/log/
 
-® Perhaps more likely to be the quota on this :-
+Perhaps more likely to be the quota on this :-
 
-◊ quota.py -u lustre_multi
+	quota.py -u lustre_multi
 
-◊ See  "Checking disk quota"
-
-
-
+See  "Checking disk quota"
 
 
 ## Number of land points nlandpts recon error
 
-® Number of land points error in recon for nest
+ Number of land points error in recon for nest
 
-○ Looks like with Hamish's new suites, the number of land points is written to a text file here :-
+	Looks like with Hamish's new suites, the number of land points is written to a text file here :-
 
-§ ~/cylc-run/*job_name*/share/data/ancils/Iceland/4p0_L70/nlandpts
+	§ ~/cylc-run/*job_name*/share/data/ancils/Iceland/4p0_L70/nlandpts
 
-○ Check in job.out what it should be set to. Error (see job.out) looks like :-
-
+Check in job.out what it should be set to. Error (see job.out) looks like :-
 
 
                         No of land points in output land_sea mask     =  90000
@@ -1093,22 +969,22 @@ ls -tr *a_da* | head -n -1 | xargs --no-run-if-empty rm
 
                         ????????????????????????????????????????????????????????????????????????????????
 
-○ In this case set it to 90000
+In this case set it to 90000
 
 
 ## Nudging global model in VN11.7 nesting suite
 
 As well as switching on nudging and pointing it to the directory with the ERA5 nudging files in I had to :-
 
-Add a stash request for 30-451, TALLTS and a nudging macro.
- N.B. - tried adding this directly to app/glm_um/opt/rose-app-ukca.conf, but it didn't seem to get picked up. Had to add in the rose edit GUI. Might be ok with the codes indicated in the changeset below (30451_b3dae44a, etc.).
-Also, needed to make sure that used enough PEs - was failing with 8x10 processors with a seg fault.
-Mohit identified this as a lack of memory :-
-"The job.err showed errors from malloc which is the basic memory allocation function, plus the traceback pointed to a random line in UKCA, which was not modified (only Nudging turned On)."
-So, once set back to 16x18 again it worked (could experiment with fewer to use fewer nodes to get through queues quicker if a problem - but would need to reduce CRUN length).
-See this changeset for what was done (ignore the changes related to emissions) :-
+	Add a stash request for 30-451, TALLTS and a nudging macro.
+	N.B. - tried adding this directly to app/glm_um/opt/rose-app-ukca.conf, but it didn't seem to get picked up. Had to add in the rose edit GUI. Might be ok with the codes indicated in the changeset below (30451_b3dae44a, etc.).
+	Also, needed to make sure that used enough PEs - was failing with 8x10 processors with a seg fault.
+	Mohit identified this as a lack of memory :-
+	"The job.err showed errors from malloc which is the basic memory allocation function, plus the traceback pointed to a random line in UKCA, which was not modified (only Nudging turned On)."
+	So, once set back to 16x18 again it worked (could experiment with fewer to use fewer nodes to get through queues quicker if a problem - but would need to reduce CRUN length).
+	See this changeset for what was done (ignore the changes related to emissions) :-
 
-https://code.metoffice.gov.uk/trac/roses-u/changeset?reponame=&new=196867%40c%2Ff%2F1%2F4%2F5&old=196667%40c%2Ff%2F1%2F4%2F5
+	https://code.metoffice.gov.uk/trac/roses-u/changeset?reponame=&new=196867%40c%2Ff%2F1%2F4%2F5&old=196667%40c%2Ff%2F1%2F4%2F5
 
 
 ## "No hosts selected" upon rose suite-run
