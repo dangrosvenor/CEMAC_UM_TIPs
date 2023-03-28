@@ -478,10 +478,6 @@ Here is an example Python function to unrotate the pole and get the actual lat/l
 		sh_lat = lat_read.shape
 		sh_lon = lon_read.shape
 
-
-
-
-
 		#replicate the 1D arrays in 2D arrays using the shapes of the other array (e.g. shape of lat for the lon replication)
 		lat2d=np.tile(lat_read,[sh_lon[0],1])
 		lon2d=np.tile(lon_read,[sh_lat[0],1])
