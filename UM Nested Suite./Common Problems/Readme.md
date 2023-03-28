@@ -24,7 +24,7 @@ Also, CMS might be useful. Note new procedure :-
 ## Monsoon Online User Guide
 
 This has some useful information on setting up your accounts, etc. :
-	https://code.metoffice.gov.uk/doc/monsoon2/![image](https://user-images.githubusercontent.com/33125995/228179176-59d17a37-b0bc-4c8f-b80e-da0c7371e7c1.png)
+	https://code.metoffice.gov.uk/doc/monsoon2/
 	
 
 ## UM known failure points Met Office website
