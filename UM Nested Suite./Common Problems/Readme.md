@@ -982,9 +982,10 @@ As well as switching on nudging and pointing it to the directory with the ERA5 n
 	Mohit identified this as a lack of memory :-
 	"The job.err showed errors from malloc which is the basic memory allocation function, plus the traceback pointed to a random line in UKCA, which was not modified (only Nudging turned On)."
 	So, once set back to 16x18 again it worked (could experiment with fewer to use fewer nodes to get through queues quicker if a problem - but would need to reduce CRUN length).
-	See this changeset for what was done (ignore the changes related to emissions) :-
 
-	https://code.metoffice.gov.uk/trac/roses-u/changeset?reponame=&new=196867%40c%2Ff%2F1%2F4%2F5&old=196667%40c%2Ff%2F1%2F4%2F5
+See this changeset for what was done (ignore the changes related to emissions) :-
+
+https://code.metoffice.gov.uk/trac/roses-u/changeset?reponame=&new=196867%40c%2Ff%2F1%2F4%2F5&old=196667%40c%2Ff%2F1%2F4%2F5
 
 
 ## "No hosts selected" upon rose suite-run
